@@ -1,0 +1,1 @@
+export {default as ProjectsDetailsList } from './ui/list/ProjectsDetailsList'
