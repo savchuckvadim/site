@@ -45,7 +45,7 @@ export default function Hero({ image }: { image: Project }) {
                             href="/portfolio"
                         >
                             <Button
-                                className='mt-4 bg-white'
+                                className='mt-4 w-3xs h-3xs'
                                 variant={'secondary'}
                             >
                                 Read More

@@ -2,29 +2,32 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { usePathname } from "next/navigation";
+// import { useParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { Menu, Moon, Sun, X } from "lucide-react";
-import { useState } from "react";
+import { Menu } from "lucide-react";
+import { ThemeMode } from "@/modules/features";
+import { useParams, usePathname } from "next/navigation";
 
 export default function Header() {
     const pathname = usePathname();
-
+    // const isPortfolio = false
     // Проверяем, находимся ли на странице портфолио
     const isPortfolio = pathname === "/portfolio" || pathname === "/home";
-    const [darkMode, setDarkMode] = useState(false);
+    // const [darkMode, setDarkMode] = useState(false);
 
-    const toggleTheme = () => {
-        setDarkMode(!darkMode);
-        if (darkMode) {
-            document.documentElement.classList.remove("dark");
-        } else {
-            document.documentElement.classList.add("dark");
-        }
-    };
+    // const toggleTheme = () => {
+    //     setDarkMode(!darkMode);
+    //     if (darkMode) {
+    //         document.documentElement.classList.remove("dark");
+    //     } else {
+    //         document.documentElement.classList.add("dark");
+    //     }
+    // };
     return (
-        <header className={`w-full py-4 shadow-md ${isPortfolio ? "" : "bg-white text-black"}`}>
+        <header className={`w-full py-4 shadow-md ${isPortfolio ? "blr" : "bg-backgound"}`}>
+        {/* <header className={`w-full py-4 shadow-md bg-background`}> */}
+
             <div className="container mx-auto flex items-center justify-between px-4">
                 <div className="flex items-center gap-2">
                     <Image
@@ -32,16 +35,16 @@ export default function Header() {
                         alt="Logo"
                         width={32}
                         height={32}
-                        className={"invert"}
+                        className="invert"
                     />
                     <Link
                         href="/"
-                        className={`transition-colors ${isPortfolio ? "text-black hover:text-white" : "text-black hover:text-gray-300"}`}
+                        className={`transition-colors`}
                     >
-                        <span className="text-lg font-semibold">Volkov Design</span>
+                        <span className="text-lg text-accent-foreground font-semibold">Volkov Design</span>
                     </Link>
-                   
-                
+
+
                 </div>
 
                 {/* Десктопное меню */}
@@ -50,9 +53,7 @@ export default function Header() {
                     <Link href="/about" className="hover:text-gray-300">About us</Link>
                     <Link href="/portfolio" className="hover:text-gray-300">Portfolio</Link>
                     <Link href="/admin" className="hover:text-gray-300">Админка</Link>
-                    {/* <Button variant='secondary' onClick={toggleTheme} >
-                        {darkMode ? <Moon /> : <Sun />}
-                    </Button> */}
+                    <ThemeMode />
                 </nav>
 
                 {/* Мобильное бургер-меню */}

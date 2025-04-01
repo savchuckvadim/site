@@ -30,7 +30,7 @@ export default function AdminLayout({
         <h2 className="text-xl">Панель администратора</h2>
       </header> */}
       <Header />
-      <main className="p-4">
+      <main className="p-0">
         {children}
       </main>
 
