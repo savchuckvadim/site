@@ -8,32 +8,32 @@ export default function Header() {
        bg-gray-800 text-white 
         py-4 shadow-md">
             <div className="container mx-auto flex items-center justify-between px-4">
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2    bg-gray-800">
                     <Image
                         src="/vercel.svg"
                         alt="Logo"
                         width={32}
                         height={32}
-                        className="invert"
+                        className="white"
                         
                     />
                     <span className="text-lg font-semibold">ADMIN</span>
                 </div>
                 <nav className="flex gap-4">
                     <Link
-                        href="admin/home"
+                        href="/admin/home"
                         className="text-gray-300 hover:text-white transition-colors"
                     >
                         Home
                     </Link>
                     <Link
-                        href="admin/about"
+                        href="/admin/about"
                         className="text-gray-300 hover:text-white transition-colors"
                     >
                         About us
                     </Link>
                     <Link
-                        href="admin/projects"
+                        href="/admin/projects"
                         className="text-gray-300 hover:text-white transition-colors"
                     >
                         Projects
