@@ -30,7 +30,7 @@ export default async function Home() {
 
       {/* <Hero image={orderedImages[0]} />
        */}
-      <HomePage url={orderedImages[1]?.url} projects={orderedImages} />
+      <HomePage url={orderedImages[0]?.url} projects={orderedImages} />
     </div>
     //   </main>
 
