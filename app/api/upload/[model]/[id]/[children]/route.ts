@@ -1,9 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { nanoid } from 'nanoid';
-// import path from 'path';
-// import { promises as fs } from 'fs';
+
 import { supaAPI } from '@/modules/services';
-import { SModel, supabase } from '@/modules/services/db/supabase/model';
+import { SModel } from '@/modules/services/db/supabase/model';
+import { createSupabaseServerClient } from '@/modules/services/db/supabase/model/supabaseServer';
 
 type params = Promise<{ model: string, id: string, children: string }>;
 
@@ -11,6 +11,8 @@ type params = Promise<{ model: string, id: string, children: string }>;
 
 export async function POST(req: NextRequest, { params }: { params: params }) {
   try {
+    const supabase = await createSupabaseServerClient();
+
     const formData = await req.formData();
     const file = formData.get('file') as File;
     const title = formData.get('title')?.toString() || 'Без названия';
@@ -23,7 +25,7 @@ export async function POST(req: NextRequest, { params }: { params: params }) {
 
     // Генерируем уникальное имя файла
     const fileName = `${nanoid()}.${file.name.split('.').pop()}`;
-debugger
+
     // Загрузка файла в Supabase Storage
     const { data: storageData, error: uploadError } = await supabase.storage
       .from('uploads')
@@ -33,7 +35,7 @@ debugger
       });
     console.log(storageData)
     console.log(uploadError)
-    debugger
+
     if (uploadError) {
       console.error('Ошибка загрузки файла в Supabase:', uploadError);
       return NextResponse.json({ error: 'Ошибка загрузки файла' }, { status: 500 });
@@ -45,7 +47,7 @@ debugger
       .getPublicUrl(`public/${fileName}`);
 
     const url = publicUrlData?.publicUrl;
-    debugger
+
     if (!url) {
       return NextResponse.json({ error: 'Ошибка получения URL файла' }, { status: 500 });
     }
@@ -55,8 +57,8 @@ debugger
     const model = param.model as SModel;
     const children = param.children as SModel;
     const parentId = Number(param.id) as number;
-    debugger
-    const dbData = { title, description, order_number: orderNumber, url, [`${model}_id`]: parentId};
+
+    const dbData = { title, description, order_number: orderNumber, url, [`${model}_id`]: parentId };
 
     const result = await supaAPI.post(children, dbData)
 

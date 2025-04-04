@@ -26,16 +26,16 @@ export default function Header() {
     // };
     return (
         <header className={`w-full py-4 shadow-md ${isPortfolio ? "blr" : "bg-backgound"}`}>
-        {/* <header className={`w-full py-4 shadow-md bg-background`}> */}
+            {/* <header className={`w-full py-4 shadow-md bg-background`}> */}
 
-            <div className="container mx-auto flex items-center justify-between px-4">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
                 <div className="flex items-center gap-2">
                     <Image
                         src="/vercel.svg"
                         alt="Logo"
                         width={32}
                         height={32}
-                        className="invert"
+                        className="backgound:invert"
                     />
                     <Link
                         href="/"

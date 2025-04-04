@@ -1,7 +1,7 @@
 'use client';
 
-import { useState} from 'react';
-
+import { useState } from 'react';
+import './HeroSlider.css'
 
 // Swiper
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -22,7 +22,7 @@ type Image = Project
 
 const baseUrl = '/api/projects';
 
-export default function HeroSlider({images}: {images: Project[]}) {
+export default function HeroSlider({ images }: { images: Project[] }) {
     // const [images, setImages] = useState<Image[]>([]);
     const [thumbsSwiper, setThumbsSwiper] = useState<any>(null);
 
@@ -112,7 +112,7 @@ export default function HeroSlider({images}: {images: Project[]}) {
                     watchSlidesProgress
                     mousewheel={{ forceToAxis: true }}
 
-                    className="absolute swiper-thumb left-1/2 transform -translate-x-1/2 w-[90%] p-2 bg-black/40 backdrop-blur rounded-lg"
+                    className="absolute swiper-custom-thumb left-1/2 transform -translate-x-1/2 w-[90%] p-2 bg-black/40 backdrop-blur rounded-lg"
                 >
                     {images.map((image) => (
                         <SwiperSlide key={image.id} className="h-full flex items-center justify-center">

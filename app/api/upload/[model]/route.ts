@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { nanoid } from 'nanoid';
 import { supaAPI } from '@/modules/services';
-import { SModel, supabase } from '@/modules/services/db/supabase/model';
+import { SModel } from '@/modules/services/db/supabase/model';
+import { createSupabaseServerClient } from '@/modules/services/db/supabase/model/supabaseServer';
 
 
 // Получение всех проектов
@@ -9,6 +10,8 @@ type Params = Promise<{ model: string }>;
 
 export async function POST(req: NextRequest, { params }: { params: Params }) {
   try {
+    const supabase = await createSupabaseServerClient();
+
     const param = await params
     const formData = await req.formData();
     const file = formData.get('file') as File;

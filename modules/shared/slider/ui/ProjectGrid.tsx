@@ -1,6 +1,7 @@
 'use client';
 
-import {  FC } from 'react';
+import Link from 'next/link';
+import { FC } from 'react';
 
 
 type Project = {
@@ -17,7 +18,7 @@ const ProjectGrid: FC<{ projects: Project[] }> = ({ projects }) => {
 
     return (
         <div className="w-full mt-10 flex justify-center">
-             <div className="w-full md:w-3/4 lg:w-5/6">
+            <div className="w-full md:w-3/4 lg:w-5/6">
                 <h1 className="text-4xl ml-3 font-bold mb-8">Projects</h1>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 p-4">
                     {projects.map((project) => (
@@ -28,7 +29,11 @@ const ProjectGrid: FC<{ projects: Project[] }> = ({ projects }) => {
                                 className="w-full h-48 object-cover"
                             />
                             <div className="p-4">
-                                <h3 className="text-xl font-semibold mb-2">{project.title}</h3>
+                                <Link
+                                    href={`/portfolio/${project.id}/details`}
+                                >
+                                    <h3 className="text-gray-900 cursor-pointer text-xl font-semibold mb-2">{project.title}</h3>
+                                </Link>
                                 <p className="text-gray-600">{project.description}</p>
                             </div>
                         </div>

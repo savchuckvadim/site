@@ -1,7 +1,7 @@
 // import type { Metadata } from "next";
 // import { Geist, Geist_Mono } from "next/font/google";
-import LoadingScreen from "@/modules/shared/LoadingScreen/LoadingScreen";
-import "@/styles/globals.css" ;
+import LoadingScreen from "@/modules/shared/LoadingScreen/ui/LoadingScreen";
+import "@/styles/globals.css";
 // import { Providers } from "@/modules/app";
 import { Footer, Header } from "@/modules/widgetes";
 
@@ -33,12 +33,12 @@ export default function SiteLayout({
       <div className="fixed w-full z-10">
         <Header />
       </div>
-    
+
       {children}
-    
-     
+
+
       <Footer />
-      
+
     </div>
   );
 }

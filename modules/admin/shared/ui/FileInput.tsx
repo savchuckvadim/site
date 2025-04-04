@@ -11,7 +11,7 @@ export default function FileInput({ onChange }: { onChange: (file: File | null) 
     };
 
     return (
-        <div className="relative inline-block">
+        <div className="relative inline-block flex flex-row">
 
             <input
                 type="file"
@@ -25,7 +25,7 @@ export default function FileInput({ onChange }: { onChange: (file: File | null) 
             >
                 <Upload className="w-6 h-6 text-gray-600" />
             </button>
-            <p className="text-xs mt-1">file</p>
+            <p className="text-xs ml-1">file</p>
 
         </div>
     );

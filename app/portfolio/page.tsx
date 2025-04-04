@@ -20,9 +20,11 @@ async function getImages(): Promise<Project[]> {
 }
 export default async function Portfolio() {
   const images = await getImages();
+  const orderedImages = images.sort((a, b) => a.order_number - b.order_number)
+
   return (
     <div className="relative flex flex-col items-center justify-start min-w-screen min-h-screen">
-      <HeroSlider images={images} />
+      <HeroSlider images={orderedImages} />
     </div>
 
   );

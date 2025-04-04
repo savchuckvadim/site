@@ -35,7 +35,7 @@ export async function PUT(req: NextRequest, { params }: { params: tParams }) {
   }
 }
 
-export async function DELETE(req: NextRequest, { params }:  { params: tParams }) {
+export async function DELETE(req: NextRequest, { params }: { params: tParams }) {
   const param = await params
   const model = param.model as SModel;
   const id = parseInt(param.id, 10);

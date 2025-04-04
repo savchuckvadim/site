@@ -1,4 +1,5 @@
 import { projectReducer } from '@/modules/admin/entities/Project';
+import { serviceReducer } from '@/modules/admin/entities/Services';
 import { chatReducer } from '@/modules/entities/Chat';
 import { combineReducers, configureStore, createListenerMiddleware } from '@reduxjs/toolkit';
 
@@ -11,8 +12,9 @@ export const listenerMiddleware = createListenerMiddleware();
 
 
 const rootReducer = combineReducers({
-   chat:chatReducer,
-   project:projectReducer
+    chat: chatReducer,
+    project: projectReducer,
+    service: serviceReducer
 
 
 });
@@ -26,7 +28,7 @@ export const setupStore = () => {
         middleware: (getDefaultMiddleware) =>
             getDefaultMiddleware()
                 .prepend(listenerMiddleware.middleware) // Добавление listener middleware в начало цепочки
-                // .concat(chatAPI.middleware)
+        // .concat(chatAPI.middleware)
 
 
 

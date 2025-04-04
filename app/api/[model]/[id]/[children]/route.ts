@@ -37,16 +37,16 @@ export async function PUT(req: NextRequest, { params }: { params: tParams }) {
   }
 }
 
-export async function DELETE(req: NextRequest, { params }: { params: tParams }) {
-  const p = await params;
-  const model = p.model as SModel;
-  const id = parseInt(p.id, 10);
+// export async function DELETE(req: NextRequest, { params }: { params: tParams }) {
+//   const p = await params;
+//   const model = p.model as SModel;
+//   const id = parseInt(p.id, 10);
 
-  try {
-    await supaAPI.delete(model, id);
-    return NextResponse.json({ message: 'Данные успешно удалены' });
-  } catch (error) {
-    console.error(`Ошибка удаления данных ${model} с ID ${id}:`, error);
-    return NextResponse.json({ error: `Ошибка удаления ${model}` }, { status: 500 });
-  }
-}
+//   try {
+//     await supaAPI.delete(model, id);
+//     return NextResponse.json({ message: 'Данные успешно удалены' });
+//   } catch (error) {
+//     console.error(`Ошибка удаления данных ${model} с ID ${id}:`, error);
+//     return NextResponse.json({ error: `Ошибка удаления ${model}` }, { status: 500 });
+//   }
+// }

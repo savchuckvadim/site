@@ -1,4 +1,5 @@
-import { createClient } from '@supabase/supabase-js'
+import { Project } from '@/modules/admin/widgetes/portfolio/ui/Portfolio';
+import { createClient, SignUpWithPasswordCredentials } from '@supabase/supabase-js'
 
 // URL и ключ можно получить из консоли Supabase
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL as string
@@ -8,6 +9,9 @@ export const supabase = createClient(supabaseUrl, supabaseKey)
 
 export enum SModel {
     PROJECTS = 'projects',
+    PROJECT = 'project',
+    SERVICES = 'services',
+    SERVICE = 'service',
     PROJECT_DETAILS = 'project_details',
     USERS = 'users',
     PROFILES = 'profiles'
@@ -51,7 +55,7 @@ export const supaAPI = {
             return null;
         }
     },
-    getByRelation: async (model: SModel, parent: SModel, parentId: number) => {
+    getByRelation: async (model: SModel, parent: SModel | string, parentId: number) => {
         try {
             const { data, error } = await supabase
                 .from(model)
@@ -62,7 +66,22 @@ export const supaAPI = {
                 console.error(`Ошибка получения данных из ${model}:`, error);
                 return null;
             }
-            return data;
+            const { data: parentData, error: parentError } = await supabase
+                .from(parent)
+                .select('*')
+                .eq('id', parentId);
+
+            if (error) {
+                console.error(`Ошибка получения данных из ${parent}:`, parentError);
+                return null;
+            }
+            debugger
+            return {
+                data: {
+                    data,
+                    parent: parentData
+                }
+            };
         } catch (err) {
             console.error('Ошибка выполнения запроса:', err);
             return null;
@@ -135,6 +154,7 @@ export const supaAPI = {
 
     // Удаление записи
     delete: async (model: SModel, id: number) => {
+
         try {
             const { error } = await supabase
                 .from(model)
@@ -142,9 +162,11 @@ export const supaAPI = {
                 .eq('id', id);
 
             if (error) {
+
                 console.error(`Ошибка удаления из ${model}:`, error);
                 return null;
             }
+
             console.log(`Успешно удалено из ${model} с ID ${id}`);
             return id;
         } catch (err) {
@@ -153,3 +175,124 @@ export const supaAPI = {
         }
     }
 };
+
+export const supaAuth = {
+    register: async (email: string, password: string) => {
+        try {
+            const redirectUrl = `${window.location.origin}/confirm`;
+            let role = 'user'
+            const lowwerEmail = email.toLocaleLowerCase()
+            const adminEmails = ['savchuckvadim@gmail.com', 'volkovgoods@gmail.com']
+            if (adminEmails.includes(lowwerEmail)) {
+                role = 'admin'
+            }
+
+            const { data, error } = await supabase.auth.signUp({
+                email: email,
+                password: password,
+                options: {
+                    data: {
+                        role: role,
+                    },
+                    emailRedirectTo: redirectUrl
+                }
+            } as SignUpWithPasswordCredentials,
+            );
+
+            if (error) throw error;
+
+            if (data?.user) {
+
+                // Сохраняем токен, если регистрация прошла успешно
+                if (data.session?.access_token) {
+                    document.cookie = `token=${data.session?.access_token}; path=/; SameSite=Lax; Secure;`;
+
+                }
+            }
+
+            return data;
+        } catch (error: any) {
+            throw new Error(error.message || 'Ошибка регистрации');
+        }
+    },
+
+    login: async (email: string, password: string) => {
+        const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+
+        if (error) throw error;
+        // Проверяем подтверждение email
+        if (!data.user?.email_confirmed_at) {
+            throw new Error("Email не подтвержден. Проверьте свою почту.");
+        }
+        if (data?.session) {
+            document.cookie = `token=${data.session.access_token}; path=/; SameSite=Lax; Secure;`;
+        }
+
+        return data;
+    },
+
+
+
+    forget: async (email: string) => {
+        const { data, error } = await supabase.auth.resetPasswordForEmail(email, {
+            // redirectTo: 'http://localhost:3000/auth/reset-password'  // Укажи свою ссылку
+            redirectTo: 'https://site-olive-six.vercel.app/auth/reset-password'
+        });
+
+        if (error) {
+            throw new Error(`Ошибка сброса пароля: ${error.message}`);
+        }
+
+        return data;
+
+    },
+
+    reset: async (email: string, password: string) => {
+        try {
+            let role = 'user'
+            const lowwerEmail = email.toLocaleLowerCase()
+            const adminEmails = ['savchuckvadim@gmail.com', 'volkovgoods@gmail.com']
+            if (adminEmails.includes(lowwerEmail)) {
+                role = 'admin'
+            }
+
+            const { data, error } = await supabase.auth.updateUser({
+                email: email,
+                password: password,
+
+            } as SignUpWithPasswordCredentials,
+            );
+
+            if (error) throw error;
+
+
+
+            return data;
+        } catch (error: any) {
+            throw new Error(error.message || 'Ошибка регистрации');
+        }
+    },
+    getUser: async () => {
+        try {
+            const token = getCookie('token'); // Получаем токен из куков
+            if (!token) return null;
+            const { data } = await supabase.auth.getUser();
+
+            return data?.user;
+        } catch (error) {
+            console.error("Ошибка получения пользователя:", error);
+            return null;
+        }
+    },
+
+    logout: async () => {
+        await supabase.auth.signOut();
+        document.cookie = "token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
+    }
+}
+
+// Функция для получения токена из куков
+function getCookie(name: string): string | null {
+    const match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
+    return match ? decodeURIComponent(match[2]) : null;
+}

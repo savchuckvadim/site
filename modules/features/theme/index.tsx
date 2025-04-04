@@ -1,52 +1,41 @@
-'use client';
+'use client'
 
+import { useEffect, useState } from "react";
 import { MoonStar, SunDim } from "lucide-react";
-import { useState, useEffect } from "react";
-import './style.css';
-export default function ThemeMode() {
-    // Чтение темы из localStorage при монтировании
-    const [darkMode, setDarkMode] = useState<boolean>(() => {
-        if (typeof window !== "undefined") {
-            return localStorage.getItem("theme") === "dark";
-        }
-        return false;
-    });
-    const [isSpinning, setIsSpinning] = useState(false);
 
-    // Установка темы при монтировании компонента
+export default function ThemeMode() {
+    const [darkMode, setDarkMode] = useState<boolean>(false);
+    const [isSpinning, setIsSpinning] = useState<boolean>(false);
+
+    // Устанавливаем начальное состояние темы на клиенте
     useEffect(() => {
-        if (darkMode) {
-            document.documentElement.classList.add("dark");
-        } else {
-            document.documentElement.classList.remove("dark");
+        const storedTheme = localStorage.getItem('theme');
+        if (storedTheme) {
+            const isDark = storedTheme === 'dark';
+            setDarkMode(isDark);
+            document.documentElement.classList.toggle("dark", isDark);
         }
-    }, [darkMode]);
+    }, []);
 
     const toggleTheme = () => {
-        setDarkMode((prev) => {
-            const newMode = !prev;
-            // Сохраняем в localStorage
-            localStorage.setItem("theme", newMode ? "dark" : "light");
+        const newMode = !darkMode;
+        setDarkMode(newMode);
+        setIsSpinning(true);
 
-            setIsSpinning(true);
-            setTimeout(() => setIsSpinning(false), 300); // Уменьшил время
+        // Снимаем анимацию через 0.5 секунды
+        setTimeout(() => setIsSpinning(false), 500);
 
-            if (newMode) {
-                document.documentElement.classList.add("dark");
-            } else {
-                document.documentElement.classList.remove("dark");
-            }
-
-            return newMode;
-        });
+        // Сохраняем тему в localStorage
+        localStorage.setItem('theme', newMode ? 'dark' : 'light');
+        document.documentElement.classList.toggle("dark", newMode);
     };
 
     return (
         <div
-            className="p-0 flex items-center justify-center cursor-pointer transition-transform duration-150"
+            className="p-0 flex items-center justify-center cursor-pointer transition-transform duration-300"
             onClick={toggleTheme}
         >
-            <div className={`text-foreground ${isSpinning ? 'animate-spin-fast' : ''}`}>
+            <div className={`text-foreground ${isSpinning ? 'animate-spin' : ''}`}>
                 {darkMode ? <MoonStar size={24} /> : <SunDim size={24} />}
             </div>
         </div>

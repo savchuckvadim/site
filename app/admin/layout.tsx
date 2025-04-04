@@ -25,13 +25,16 @@ export default function AdminLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="min-h-screen bg-gray-100 text-gray-900">
+    <div className="min-h-screen text-foreground">
       {/* <header className="bg-blue-600 text-white p-4">
         <h2 className="text-xl">Панель администратора</h2>
       </header> */}
       <Header />
       <main className="p-0">
-        {children}
+        <div className="min-w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-center">
+
+          {children}
+        </div>
       </main>
 
     </div>

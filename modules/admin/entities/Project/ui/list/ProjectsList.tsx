@@ -19,9 +19,10 @@ export default function ProjectsList() {
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
     const [order, setOrder] = useState(0);
-    const [file, setFile] = useState<File | null>(null);
+    const [file, setFile] = useState<File | null | string>(null);
     const [isLoading, setIsLoading] = useState(false)
     const [editId, setEditId] = useState<number | null>(null);
+
     const dispatch = useAppDispatch()
     const setFetched = (projects: Project[]) => dispatch(
         projectActions.setFetched({ projects })
@@ -31,7 +32,7 @@ export default function ProjectsList() {
         const response = await axios.get(baseUrl);
         const projects = await getProjects()
         setFetched(projects);
-        setOrder(projects ? projects.length : 0)
+        setOrder(projects && (projects.length || projects.length == 0) ? projects.length : 0)
     };
 
     const handleSubmit = async () => {
@@ -58,16 +59,18 @@ export default function ProjectsList() {
     };
 
     const handleDelete = async (id: number) => {
-        await axios.delete(baseUrl, { data: { id } });
+
+        await axios.delete(`${baseUrl}/${id}`, { data: { id } });
         fetchImages();
     };
 
     const handleEdit = (project: Project) => {
+      
         setEditId(project.id);
         setTitle(project.title);
         setDescription(project.description);
         setOrder(project.order_number);
-        setFile(null);
+        setFile(project.url);
     };
 
     const handleUpdate = async () => {
@@ -79,10 +82,14 @@ export default function ProjectsList() {
         formData.append('title', title);
         formData.append('description', description);
         formData.append('order', order.toString());
-        if (file) formData.append('file', file);
+        if (file instanceof File) {
+            formData.append('file', file);
+        } else if (typeof file === 'string') {
+            formData.append('url', file);  // Отправляем старый URL
+        }
 
         try {
-            await axios.put(uploadUrl, formData);
+            await axios.put(`${uploadUrl}/${editId}`, formData);
             await fetchImages();
             setEditId(null);
             setTitle('');
@@ -111,15 +118,18 @@ export default function ProjectsList() {
                     setDescription={setDescription}
                     setOrder={setOrder}
                     setFile={setFile}
+                    file={file}
+
                     editId={editId}
                     handleUpdate={handleUpdate}
                     handleSubmit={handleSubmit}
                 />
 
-                <div className="flex flex-wrap gap-4 justify-center">
+                <div className="flex flex-wrap gap-4 justify-center w-full">
                     {projects && projects.length && [...projects]
                         .sort((a, b) => a.order_number - b.order_number)
                         .map((project) => (
+
                             <Card
                                 key={project.id}
                                 id={project.id}
@@ -131,6 +141,8 @@ export default function ProjectsList() {
                                 onDelete={handleDelete}
                                 onEdit={() => handleEdit(project)}
                             />
+
+
                         ))}
                 </div>
             </>

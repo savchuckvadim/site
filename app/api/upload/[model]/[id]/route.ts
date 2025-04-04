@@ -1,9 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { nanoid } from 'nanoid';
-// import path from 'path';
-// import { promises as fs } from 'fs';
 import { supaAPI } from '@/modules/services';
-import { SModel, supabase } from '@/modules/services/db/supabase/model';
+import { SModel } from '@/modules/services/db/supabase/model';
+import { createSupabaseServerClient } from '@/modules/services/db/supabase/model/supabaseServer';
 
 
 // Получение всех проектов
@@ -13,6 +12,8 @@ type Params = Promise<{ model: string, id: string, }>;
 // Обновление существующего проекта
 export async function PUT(req: NextRequest, { params }: { params: Params }) {
   try {
+    const supabase = await createSupabaseServerClient();
+
     const param = await params
     const model = param.model as SModel;
     const formData = await req.formData();
@@ -21,35 +22,48 @@ export async function PUT(req: NextRequest, { params }: { params: Params }) {
     const description = formData.get('description')?.toString() || '';
     const orderNumber = parseInt(formData.get('order')?.toString() || '0', 10);
     const file = formData.get('file') as File | null;
+    const existingUrl = formData.get('url')?.toString() || '';
+    let url = existingUrl; // Используем существующий URL по умолчанию
 
     if (!id) {
       return NextResponse.json({ error: 'Неверный ID' }, { status: 400 });
     }
 
-    let url = null;
+
 
     // Если загружается новый файл
     if (file) {
       const fileName = `${nanoid()}.${file.name.split('.').pop()}`;
-      const filePath = `/uploads/${fileName}`;
+      const filePath = `public/${fileName}`;
 
-      const { error: uploadError } = await supabase.storage
+      const { data: storageData, error: uploadError } = await supabase.storage
         .from('uploads')
         .upload(filePath, file);
-
+      console.log(storageData)
+      console.log(uploadError)
       if (uploadError) {
         console.error('Ошибка загрузки файла:', uploadError);
         return NextResponse.json({ error: 'Ошибка загрузки файла' }, { status: 500 });
       }
-      url = filePath;
+
+      const { data: publicUrlData } = supabase.storage
+        .from('uploads')
+        .getPublicUrl(filePath);
+
+      url = publicUrlData?.publicUrl;
+    }
+    if (!url) {
+      return NextResponse.json({ error: 'Ошибка получения URL файла' }, { status: 500 });
     }
 
-    const data = { title, description, order_number: orderNumber, url: '' };
-    if (url) data.url = url;
+
+    const data = { title, description, order_number: orderNumber, url: url };
+
 
     const updatedProject = await supaAPI.put(model, id, data);
 
     return NextResponse.json({ message: 'Проект обновлен', project: updatedProject });
+
   } catch (error) {
     console.error('Ошибка обновления проекта:', error);
     return NextResponse.json({ error: 'Ошибка обновления' }, { status: 500 });
@@ -59,6 +73,7 @@ export async function PUT(req: NextRequest, { params }: { params: Params }) {
 // Удаление проекта
 export async function DELETE(req: NextRequest, { params }: { params: Params }) {
   try {
+
     const param = await params;
     const model = param.model as SModel;
 

@@ -1,16 +1,16 @@
 'use client';
-
-
-import { Project } from '@/modules/admin/widgetes/portfolio/ui/Portfolio';
 import Image from 'next/image';
-import { Button } from '@/components/ui/button';
-import Link from 'next/link';
+import { ReactNode } from 'react';
 
 
+interface HeroProps {
+    image: string;
+    alt: string;
+    children: ReactNode;
+}
 
 
-
-export default function Hero({ image }: { image: Project }) {
+export default function Hero({ image, alt, children }: HeroProps) {
 
     if (!image) {
         return <p className="text-center text-gray-500">...</p>;
@@ -26,8 +26,8 @@ export default function Hero({ image }: { image: Project }) {
                     className="absolute inset-0 w-full h-full "
                 >
                     <Image
-                        src={image.url}
-                        alt={image.title}
+                        src={image}
+                        alt={alt}
                         width={1920}
                         height={1080}
                         priority // Приоритетная загрузка
@@ -38,22 +38,8 @@ export default function Hero({ image }: { image: Project }) {
 
                 </div>
                 <div className='absolute inset-20  h-2/3 flex flex-col justify-center items-start'>
-                    <div className='home-hero-information-block w-xs  py-4 flex flex-col  p-3 justify-center items-start'>
-                        <h1 className='text-4xl font-extrabold'>Elegant and Unique Design</h1>
-                        <p className='mt-2'>Right design and right ideas matter a lot of in interior design business. </p>
-                        <Link
-                            href="/portfolio"
-                        >
-                            <Button
-                                className='mt-4 w-3xs h-3xs'
-                                variant={'secondary'}
-                            >
-                                Read More
-                            </Button>
-                        </Link>
-
-                    </div>
-
+                  
+                    {children}
                 </div>
 
 

@@ -9,8 +9,8 @@ import { useAppDispatch, useAppSelector } from '@/modules/app';
 import { Project } from '../../../Project/type/project-type';
 // import { useRouter } from 'next/router';
 import { useParams } from 'next/navigation';
-import { getProjects } from '../../../Project/lib/helper';
 import { fetchProjects } from '../../../Project/model/ProjectThunk';
+import LoadingScreen from '@/modules/shared/LoadingScreen/ui/LoadingScreen';
 
 
 
@@ -30,7 +30,7 @@ export default function ProjectsDetailsList() {
     // const [baseUrl, setBaseUrl] = useState('');
     const [description, setDescription] = useState('');
     const [order, setOrder] = useState(0);
-    const [file, setFile] = useState<File | null>(null);
+    const [file, setFile] = useState<File | null | string>(null);
     const [isLoading, setIsLoading] = useState(false)
     const [editId, setEditId] = useState<number | null>(null);
 
@@ -59,17 +59,22 @@ export default function ProjectsDetailsList() {
 
 
 
-    const baseUrl = `/api/project/${projectId}/${SModel.PROJECT_DETAILS}`
+    const baseUrl = `/api/${SModel.PROJECT}/${projectId}/${SModel.PROJECT_DETAILS}`
     const uploadUrl = `/api/upload/project/${projectId}/${SModel.PROJECT_DETAILS}`;
+    const uploadUpdateUrl = `/api/upload/${SModel.PROJECT_DETAILS}`;
+    const deleteUrl = `/api/${SModel.PROJECT_DETAILS}`
 
     const fetchDetails = async () => {
+        setIsLoading(true)
         if (!baseUrl) return;
         const response = await axios.get(baseUrl);
 
-        const imgs = response.data
+        const imgs = response.data?.data?.data
 
         setImages(imgs);
-        setOrder(imgs ? imgs.length : 0)
+        setOrder(imgs && (imgs.length || imgs.length == 0) ? imgs.length : 0)
+        setIsLoading(false)
+
     };
 
     // fetchDetails();
@@ -78,6 +83,7 @@ export default function ProjectsDetailsList() {
         if (isLoading) return;
         if (!file) return;
         setIsLoading(true)
+
         const formData = new FormData();
         formData.append('file', file);
         formData.append('title', title);
@@ -98,19 +104,28 @@ export default function ProjectsDetailsList() {
     };
 
     const handleDelete = async (id: number) => {
-        await axios.delete(baseUrl, { data: { id } });
+        setIsLoading(true)
+
+        const url = `${deleteUrl}/${id}`
+        await axios.delete(url, { data: { id } });
         fetchDetails();
+        setIsLoading(false)
+
     };
 
-    const handleEdit = (project: Project) => {
-        setEditId(project.id);
-        setTitle(project.title);
-        setDescription(project.description);
-        setOrder(project.order_number);
-        setFile(null);
+    const handleEdit = (detail: Project) => {
+
+        setEditId(detail.id);
+        setTitle(detail.title);
+        setDescription(detail.description);
+        setOrder(detail.order_number);
+        setFile(detail.url);
     };
 
     const handleUpdate = async () => {
+
+        const url = `${uploadUpdateUrl}/${editId}`
+
         if (!editId) return;
         if (isLoading) return;
         setIsLoading(true)
@@ -119,12 +134,18 @@ export default function ProjectsDetailsList() {
         formData.append('title', title);
         formData.append('description', description);
         formData.append('order', order.toString());
-        if (file) formData.append('file', file);
+
+        if (file instanceof File) {
+            formData.append('file', file);
+        } else if (typeof file === 'string') {
+            formData.append('url', file);  // Отправляем старый URL
+        }
 
         try {
-            await axios.put(uploadUrl, formData);
+            await axios.put(url, formData);
             await fetchDetails();
             setEditId(null);
+
             setTitle('');
             setDescription('');
             setOrder(0);
@@ -139,6 +160,7 @@ export default function ProjectsDetailsList() {
         let isMounted = true;
 
         async function initializeData() {
+
             if (isMounted) {
                 await loadProjects();
                 await fetchDetails();
@@ -155,6 +177,7 @@ export default function ProjectsDetailsList() {
         let isMounted = true;
 
         async function initializeData() {
+
             if (isMounted && !project) {
                 await loadProjects();
             }
@@ -168,7 +191,7 @@ export default function ProjectsDetailsList() {
     }, [projects]);
 
     return (
-        <div className="p-4 mt-10">
+        <div className="p-4 mt-10  w-full">
             {!isLoading && project ? <>
 
                 <AddImageEntityMenu
@@ -180,6 +203,7 @@ export default function ProjectsDetailsList() {
                     setDescription={setDescription}
                     setOrder={setOrder}
                     setFile={setFile}
+                    file={editId ? file : null}
                     editId={editId}
                     handleUpdate={handleUpdate}
                     handleSubmit={handleSubmit}
@@ -203,7 +227,7 @@ export default function ProjectsDetailsList() {
                         ))}
                 </div>
             </>
-                : <div className="text-center">Загрузка...</div>}
+                : <LoadingScreen />}
         </div>
     );
 }
