@@ -12,7 +12,8 @@ type Params = Promise<{ model: string, id: string, }>;
 // Обновление существующего проекта
 export async function PUT(req: NextRequest, { params }: { params: Params }) {
   try {
-    const supabase = await createSupabaseServerClient();
+    const token = req.cookies.get('token')?.value;
+    const supabase = await createSupabaseServerClient(token)
 
     const param = await params
     const model = param.model as SModel;
