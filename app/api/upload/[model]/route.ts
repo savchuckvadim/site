@@ -10,7 +10,12 @@ type Params = Promise<{ model: string }>;
 
 export async function POST(req: NextRequest, { params }: { params: Params }) {
   try {
-    const supabase = await createSupabaseServerClient();
+    const token = req.cookies.get('token')?.value;
+
+    console.log("Токен для загрузки файла:", token);
+
+    const supabase = await createSupabaseServerClient(token);
+    console.log("Токен для загрузки файла:", token);
 
     const param = await params
     const formData = await req.formData();
