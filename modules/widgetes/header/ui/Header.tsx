@@ -7,13 +7,19 @@ import { Button } from "@/components/ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Menu } from "lucide-react";
 import { ThemeMode } from "@/modules/features";
-import { useParams, usePathname } from "next/navigation";
+import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
+// export const dynamic = 'force-dynamic';
 
 export default function Header() {
     const pathname = usePathname();
     // const isPortfolio = false
     // Проверяем, находимся ли на странице портфолио
     const isPortfolio = pathname === "/portfolio" || pathname === "/home";
+    const [isMounted, setIsMounted] = useState<boolean>(false);
+    useEffect(() => {
+        setIsMounted(true);
+    }, [])
     // const [darkMode, setDarkMode] = useState(false);
 
     // const toggleTheme = () => {
@@ -30,18 +36,19 @@ export default function Header() {
 
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                    <Image
-                        src="/vercel.svg"
-                        alt="Logo"
-                        width={32}
-                        height={32}
-                        className="backgound:invert"
-                    />
                     <Link
                         href="/"
                         className={`transition-colors`}
                     >
-                        <span className="text-lg text-accent-foreground font-semibold">Volkov Design</span>
+                        <Image
+                            src="/volkov.svg"
+                            alt="Logo"
+                            width={120}
+                            height={85}
+                            className="backgound:invert"
+                        />
+
+                        {/* <span className="text-lg text-accent-foreground font-semibold">Volkov Design</span> */}
                     </Link>
 
 
@@ -52,8 +59,11 @@ export default function Header() {
                     <Link href="/" className="hover:text-gray-300">Home</Link>
                     <Link href="/about" className="hover:text-gray-300">About us</Link>
                     <Link href="/portfolio" className="hover:text-gray-300">Portfolio</Link>
-                    <Link href="/admin" className="hover:text-gray-300">Админка</Link>
-                    <ThemeMode />
+                    <Link href="/admin" className="hover:text-gray-300">Login</Link>
+                    {/* <Suspense fallback={<div>Загрузка...</div>}> */}
+
+                    {isMounted && <ThemeMode />}
+                    {/* </Suspense> */}
                 </nav>
 
                 {/* Мобильное бургер-меню */}

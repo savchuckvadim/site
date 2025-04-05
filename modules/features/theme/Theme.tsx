@@ -7,13 +7,13 @@ export default function ThemeMode() {
     const [darkMode, setDarkMode] = useState<'dark' | 'light'>('light');
     const [isSpinning, setIsSpinning] = useState<boolean>(false);
     const [isThemeSpinning, setIsThemeSpinning] = useState<boolean>(false);
-    const [isMounted, setIsMounted] = useState<boolean>(false); 
+    const [isMounted, setIsMounted] = useState<boolean>(false);
 
     const [theme, setTheme] = useState<'violete' | 'default' | 'blue'>('default');
 
     // Устанавливаем начальное состояние темы на клиенте
     useEffect(() => {
-        setIsMounted(true); 
+        setIsMounted(true);
 
         const storedTheme = (localStorage.getItem('theme') as 'violete' | 'default' | 'blue') || 'default';
         const storedMode = (localStorage.getItem('mode') === 'dark' ? 'dark' : 'light') as 'dark' | 'light';
@@ -54,9 +54,13 @@ export default function ThemeMode() {
     return (
         <>
             <div onClick={toggleTheme} className={`cursor-pointer text-foreground ${isThemeSpinning ? 'animate-spin' : ''}`}>
-                {theme == 'default' && <Dice1 color="black" />}
-                {theme == 'blue' && <Dice2 color="blue" />}
-                {theme == 'violete' && <Dice3 color="violet" />}
+
+                {theme == 'default' ? <Dice1 color={darkMode === 'dark' ? "white" : "black"} />
+                    : theme == 'blue' ? <Dice2 color="blue" />
+                        : theme == 'violete' ? <Dice3 color="violet" />
+                            : <Dice1 color={darkMode === 'dark' ? "white" : "black"} />
+                }
+
             </div>
             <div
                 className="p-0 flex items-center justify-center cursor-pointer transition-transform duration-300"
