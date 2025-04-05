@@ -1,26 +1,9 @@
-import { Project } from "@/modules/admin/widgetes/portfolio/ui/Portfolio";
-import HomePage from "@/modules/pages/home/ui/Home";
-import { supaAPI } from "@/modules/services";
-import { SModel } from "@/modules/services/db/supabase/model";
+import { HomePage } from "@/modules/pages/home";
 
 
-async function getImages(): Promise<Project[]> {
-  try {
-    const response = await supaAPI.getAll(SModel.PROJECTS);
-    if (response) {
-      const result = response as Project[];
-      return result;
-    }
-    return [];
-  } catch (error) {
-    console.error("Ошибка загрузки изображений:", error);
-    return [];
-  }
-}
 
 export default async function Home() {
-  const images = await getImages();
-  const orderedImages = images.sort((a, b) => a.order_number - b.order_number)
+ 
   return (
 
 
@@ -30,7 +13,7 @@ export default async function Home() {
 
       {/* <Hero image={orderedImages[0]} />
        */}
-      <HomePage url={orderedImages[0]?.url} projects={orderedImages} />
+      <HomePage  />
     </div>
     //   </main>
 

@@ -1,5 +1,4 @@
 'use client'
-import { Project } from '@/modules/admin/entities/Project/type/project-type';
 import React, { FC, useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, Mousewheel, Navigation, Pagination, Thumbs } from 'swiper/modules';
@@ -8,21 +7,22 @@ import Image from 'next/image';
 import { Card, CardContent } from '@/components/ui/card';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
+import { Project } from '@/modules/entities/Project';
 
 
 interface HomeLastProjectsProps {
     projects: Project[]
 }
 const HomeLastProjects: FC<HomeLastProjectsProps> = ({ projects }) => {
-    const orderedProjects = projects.sort((a, b) => a.id - b.id)
+    // const orderedProjects = [...projects].sort((a, b) => a.id - b.id);
     const [thumbsSwiper, setThumbsSwiper] = useState<any>(null);
     const [activeIndex, setActiveIndex] = useState<number>(0);
 
     // Получаем активный проект по индексу
-    const activeProject = orderedProjects[activeIndex];
+    const activeProject = projects[activeIndex];
 
     return (
-        <div className="relative bg-secondary w-full h-1/2 overflow-hidden p-1">
+        <div className="relative bg-background w-full h-1/2 overflow-hidden p-1 px-4">
             <Link
                 href='/portfolio'
             >
@@ -34,26 +34,22 @@ const HomeLastProjects: FC<HomeLastProjectsProps> = ({ projects }) => {
                     .filter((p, i) => i < 3)
                     .map(project => {
                         const itemDetailUrl = `portfolio/${project.id}/details`
-                        return <Card key={`home_projects_card-${project.id}`} className="m-3 mb-0 bg-primary text-foreground shadow-md w-full max-w-md flex flex-col min-h-[300px] max-h-[500px]">
+                        return <div key={`home_projects_card-${project.id}`} className="hover:scale-105 transition-transform m-3 mb-0 text-foreground shadow-md w-full max-w-md flex flex-col min-h-[300px] max-h-[500px]">
                             <Link href={itemDetailUrl} className="text-blue-500 underline">
-                                <CardContent>
-                                    <div className="relative rounded-lg  overflow-hidden p-4 w-full">
-                                        <div className="relative overflow-hidden flex-shrink-0">
+                                {/* <CardContent> */}
+                                <div className="relative rounded-lg  overflow-hidden p-4 w-full">
+                                    <div className="relative overflow-hidden flex-shrink-0">
 
-                                            <img src={project.url} alt={project.title} className="w-full h-48 object-cover rounded" />
-                                        </div>
-                                        <div className="p-2  overflow-hidden ">
-
-
-                                            <h3 className="text-lg font-semibold mb-1">{project.title}</h3>
-
-                                            {/* <p className="text-foreground max-h-48 overflow-y-auto break-words">{project.description}</p> */}
-                                        </div>
+                                        <img src={project.url} alt={project.title} className="w-full h-48 object-cover rounded" />
                                     </div>
+                                    <div className="p-2 overflow-hidden flex justify-center items-center">
+                                        <p className="text-lg font-semibold mb-1">{project.title}</p>
+                                    </div>
+                                </div>
 
-                                </CardContent>
+                                {/* </CardContent> */}
                             </Link>
-                        </Card>
+                        </div>
 
 
                     })
@@ -68,10 +64,10 @@ const HomeLastProjects: FC<HomeLastProjectsProps> = ({ projects }) => {
                     </Button>
                 </Link>
             </div>
-            <div className='p-0 flex flex-col'>
+            <div className='p-0 flex flex-col  sm:px-2 md:px-8 lg:px-8 xl:px-2'>
                 <div className='w-full flex flex-row flex-wrap justify-center'>
                     {/* Слайдер с изображениями */}
-                    <div className='w-1/2 min-w-[400px]'>
+                    <div className='w-1/2  min-w-96 xs:min-w-full xs:max-h-4 2xs:h-4 3xs:max-h-4 '>
                         <Swiper
                             key={`home_projects_swiper`}
                             modules={[Navigation, Pagination, Thumbs, Autoplay]}
@@ -87,17 +83,17 @@ const HomeLastProjects: FC<HomeLastProjectsProps> = ({ projects }) => {
                             }}
                             spaceBetween={10}
                             slidesPerView={1}
-                            loop={orderedProjects.length > 1}
+                            loop={projects.length > 1}
                             onSlideChange={(swiper) => setActiveIndex(swiper.realIndex)} // Обновляем индекс слайда
                             className="absolute inset-0 w-full h-full"
                         >
-                            {orderedProjects.map((image, index) => (
+                            {projects.map((image, index) => (
                                 <SwiperSlide key={`home_projects_swiper-${image.id}`}>
                                     <motion.div
                                         initial={{ opacity: 0 }}
                                         animate={{ opacity: 1 }}
                                         transition={{ duration: 0.5 }}
-                                        className="relative w-full h-full"
+                                    // className="relative w-full h-[200px]"
                                     >
                                         <Image
                                             src={image.url}
@@ -107,20 +103,23 @@ const HomeLastProjects: FC<HomeLastProjectsProps> = ({ projects }) => {
                                             priority
                                             placeholder="blur"
                                             blurDataURL="/vercel.svg"
-                                            className="w-auto h-[500px]"
+                                        // className="w-auto h-[500px]"
                                         />
-                                        <div className="absolute bottom-0 left-0 bg-black/60 text-white p-4">
+                                        {/* <div className="absolute bottom-0 left-0 bg-black/60 text-white p-4">
                                             {image.title}
-                                        </div>
+                                        </div> */}
                                     </motion.div>
                                 </SwiperSlide>
                             ))}
                         </Swiper>
                     </div>
                     {/* Данные текущего проекта */}
-                    <div className='w-1/2 min-w-[400px] p-4 pt-0 flex flex-col justify-start items-start'>
+                    <div className='w-1/2 min-w-96 p-4 pt-0 flex flex-col justify-start items-start '>
                         <h2 className="text-2xl mb-5 font-bold">{activeProject?.title || 'No Title'}</h2>
-                        <p className="text-sm text-foreground">{activeProject?.description || 'No Description'}</p>
+                        <div className='p-0 m-0 overflow-auto h-[180px]'>
+                            <p className="text-sm text-foreground">{activeProject?.description || 'No Description'}</p>
+                        </div>
+
                     </div>
                 </div>
             </div>

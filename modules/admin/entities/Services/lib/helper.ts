@@ -1,5 +1,5 @@
+import { Project } from "@/modules/entities/Project";
 import axios from "axios";
-import { Project } from "../../Project/type/project-type";
 
 
 export const getServices = async (): Promise<Project[]> => {

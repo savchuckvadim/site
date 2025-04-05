@@ -1,6 +1,6 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { fetchProjects } from "./ServiceThunk";
-import { Project } from "../../Project/type/project-type";
+import { Project } from "@/modules/entities/Project";
 
 
 

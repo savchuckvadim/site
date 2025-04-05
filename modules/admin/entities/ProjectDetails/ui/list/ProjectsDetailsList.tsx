@@ -6,11 +6,10 @@ import { SModel } from '@/modules/services/db/supabase/model';
 import { AddImageEntityMenu, Card } from '@/modules/admin/shared';
 import { useAppDispatch, useAppSelector } from '@/modules/app';
 
-import { Project } from '../../../Project/type/project-type';
 // import { useRouter } from 'next/router';
 import { useParams } from 'next/navigation';
-import { fetchProjects } from '../../../Project/model/ProjectThunk';
 import LoadingScreen from '@/modules/shared/LoadingScreen/ui/LoadingScreen';
+import { fetchProjects, Project } from '@/modules/entities/Project';
 
 
 

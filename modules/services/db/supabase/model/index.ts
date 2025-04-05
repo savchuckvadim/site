@@ -1,11 +1,16 @@
-import { Project } from '@/modules/admin/widgetes/portfolio/ui/Portfolio';
-import { createClient, SignUpWithPasswordCredentials } from '@supabase/supabase-js'
+import { createClient, SignUpWithPasswordCredentials, User } from '@supabase/supabase-js'
 
 // URL и ключ можно получить из консоли Supabase
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL as string
 const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_KEY as string
 
-export const supabase = createClient(supabaseUrl, supabaseKey)
+export const supabase = createClient(supabaseUrl, supabaseKey, {
+    auth: {
+        autoRefreshToken: true, // Автоматическое обновление токена
+        persistSession: true,   // Сохранять сессию
+        detectSessionInUrl: true,
+    },
+})
 
 export enum SModel {
     PROJECTS = 'projects',
@@ -75,7 +80,7 @@ export const supaAPI = {
                 console.error(`Ошибка получения данных из ${parent}:`, parentError);
                 return null;
             }
-            debugger
+
             return {
                 data: {
                     data,
@@ -216,22 +221,45 @@ export const supaAuth = {
         }
     },
 
+    // login: async (email: string, password: string) => {
+    //     const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+
+    //     if (error) throw error;
+    //     // Проверяем подтверждение email
+    //     if (!data.user?.email_confirmed_at) {
+    //         throw new Error("Email не подтвержден. Проверьте свою почту.");
+    //     }
+    //     if (data?.session) {
+    //         document.cookie = `token=${data.session.access_token}; path=/; SameSite=Lax; Secure;`;
+    //     }
+
+    //     return data;
+    // },
+
     login: async (email: string, password: string) => {
-        const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+        try {
+            const response = await fetch('/api/auth/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ email, password }),
+            });
 
-        if (error) throw error;
-        // Проверяем подтверждение email
-        if (!data.user?.email_confirmed_at) {
-            throw new Error("Email не подтвержден. Проверьте свою почту.");
-        }
-        if (data?.session) {
-            document.cookie = `token=${data.session.access_token}; path=/; SameSite=Lax; Secure;`;
-        }
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.error || 'Ошибка логина');
+            }
 
-        return data;
+            console.log("Логин успешен!");
+            const result = await response.json() as Promise<User>;
+            debugger
+            return result
+        } catch (error: any) {
+            console.error("Ошибка при логине:", error.message);
+            throw error;
+        }
     },
-
-
 
     forget: async (email: string) => {
         const { data, error } = await supabase.auth.resetPasswordForEmail(email, {
@@ -286,8 +314,30 @@ export const supaAuth = {
     },
 
     logout: async () => {
-        await supabase.auth.signOut();
-        document.cookie = "token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
+        // await supabase.auth.signOut();
+        // document.cookie = "token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC;";
+        try {
+            const response = await fetch('/api/auth/logout', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ }),
+            });
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.error || 'Ошибка логина');
+            }
+
+            console.log("Log out успешен!");
+            const result = await response.json();
+            debugger
+            return result
+        } catch (error: any) {
+            console.error("Ошибка при Log out:", error.message);
+            throw error;
+        }
     }
 }
 

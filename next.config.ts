@@ -29,6 +29,11 @@ const nextConfig: NextConfig = {
  
         pathname: '/storage/v1/object/public/uploads/public/**', // Путь к изображениям
       },
+      {
+        protocol: 'https',
+        hostname: 'images.unsplash.com',
+        pathname: '/**',
+      },
     ],
   },
 };

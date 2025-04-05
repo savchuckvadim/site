@@ -1,6 +1,6 @@
-import { projectReducer } from '@/modules/admin/entities/Project';
 import { serviceReducer } from '@/modules/admin/entities/Services';
 import { chatReducer } from '@/modules/entities/Chat';
+import { projectReducer } from '@/modules/entities/Project';
 import { combineReducers, configureStore, createListenerMiddleware } from '@reduxjs/toolkit';
 
 

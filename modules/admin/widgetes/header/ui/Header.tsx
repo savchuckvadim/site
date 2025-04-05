@@ -1,12 +1,16 @@
-
+'use client'
 import Link from "next/link";
-import Image from "next/image";
+
 
 import { ThemeMode } from "@/modules/features";
+import { supaAuth } from "@/modules/services/db/supabase/model";
 
 // bg-gray-800 text-white 
 export default function Header() {
+    const signOut = () => {
+        supaAuth.logout();
 
+    }
     return (
         <header className="w-full 
        bg-background text-primary-foreground 
@@ -41,12 +45,13 @@ export default function Header() {
                     <Link
                         href="/admin/projects"
                         className="text-accent-foreground hover:text-secondary transition-colors dark:hover:text-primary"
-                        >
+                    >
                         Projects
                     </Link>
                     <Link
                         href="/"
                         className="text-accent-foreground hover:text-secondary transition-colors dark:hover:text-primary"
+                        onClick={() => signOut()}
                     >
                         Выйти
                     </Link>

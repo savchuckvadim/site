@@ -17,12 +17,12 @@ const LoadingScreen = () => {
     }, []);
 
     return (
-        <div className="bg-background">
+        <div className="bg-primary">
             {isVisible &&
 
                 (
                     <motion.div
-                        className="loading-screen bg-background"
+                        className="loading-screen bg-primary"
                         initial={{ opacity: 1 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}

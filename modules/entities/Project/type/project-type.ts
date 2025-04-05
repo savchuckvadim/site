@@ -5,3 +5,10 @@ export type Project = {
     description: string;
     order_number: number;
 };
+
+export type ProjectsContextType = {
+  projects: Project[];
+  loading: boolean;
+  error?: string;
+  isFetched: boolean;
+};

@@ -4,10 +4,8 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { SModel } from '@/modules/services/db/supabase/model';
 import { AddImageEntityMenu, Card } from '@/modules/admin/shared';
-import { Project } from '../../type/project-type';
 import { useAppDispatch, useAppSelector } from '@/modules/app';
-import { projectActions } from '../../model/ProjectSlice';
-import { getProjects } from '../../lib/helper';
+import { getProjects, Project, projectActions } from '@/modules/entities/Project';
 
 
 const uploadUrl = '/api/upload/projects';

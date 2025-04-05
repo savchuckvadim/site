@@ -16,6 +16,7 @@ const initialState = {
 
     ] as Project[],
     loading: false as boolean,
+    fetched: false as boolean,
     error: undefined as string | undefined,
 
 
@@ -32,6 +33,7 @@ const projectSlice = createSlice({
             action: PayloadAction<{ projects: Project[] }>
         ) => {
             state.items = action.payload.projects
+            state.fetched = true
         },
 
 
@@ -46,10 +48,12 @@ const projectSlice = createSlice({
             .addCase(fetchProjects.fulfilled, (state, action) => {
                 state.loading = false;
                 state.items = action.payload;
+                state.fetched = true
             })
             .addCase(fetchProjects.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.error.message;
+                state.fetched = true
             });
     },
 

@@ -6,9 +6,9 @@ import { SModel } from '@/modules/services/db/supabase/model';
 import { AddImageEntityMenu, Card } from '@/modules/admin/shared';
 
 import { useAppDispatch, useAppSelector } from '@/modules/app';
-import { Project } from '../../../Project/type/project-type';
 import { serviceActions } from '../../model/ServiceSlice';
 import { getServices } from '../../lib/helper';
+import { Project } from '@/modules/entities/Project';
 
 
 const uploadUrl = '/api/upload/services';

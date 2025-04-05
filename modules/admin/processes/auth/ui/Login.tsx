@@ -35,9 +35,9 @@ const LoginForm = ({
             setIsLoading(true)
 
             try {
-                const { user, session, weakPassword } = await supaAuth.login(email, password);
-
-                if (user.role === 'admin') {
+                const user = await supaAuth.login(email, password);
+debugger
+                if (user.user_metadata.role === 'admin') {
                     window.location.href = '/admin/projects';
                 } else {
                     window.location.href = '/';

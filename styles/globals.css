@@ -1,13 +1,12 @@
-/* @tailwind base;
-@tailwind components;
-@tailwind utilities;
- */
+
  /* Подключаем тему */
+ @import './themes/violete.css';
+ @import './themes/blue.css';
+ @import './themes/default.css';
  /* @import "./theme.json"; */
  @import "tailwindcss/base";
  @import "tailwindcss/components";
  @import "tailwindcss/utilities";
- 
 
 
  /* :root {
@@ -138,7 +137,7 @@
 
 
 
-@layer base {
+/* @layer base {
   :root {
     --background: 0 0% 100%;
     --foreground: 240 10% 3.9%;
@@ -193,7 +192,7 @@
     --chart-4: 280 65% 60%;
     --chart-5: 340 75% 55%;
   }
-}
+} */
 
 
 html, body {
@@ -254,7 +253,7 @@ header {
 }
 .blr {
   background-color: rgba(0, 0, 0, 0.1);
-  backdrop-filter: blur(2px);
+  backdrop-filter: blur(4px);
 }
 
 .home-hero-information-block{

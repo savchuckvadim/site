@@ -26,18 +26,6 @@ export default function HeroSlider({ images }: { images: Project[] }) {
     // const [images, setImages] = useState<Image[]>([]);
     const [thumbsSwiper, setThumbsSwiper] = useState<any>(null);
 
-    // useEffect(() => {
-    //     const fetchImages = async () => {
-    //         try {
-    //             const response = await axios.get(baseUrl) as { data: Project[] };
-
-    //             setImages(response.data.sort((a, b) => a.order_number - b.order_number));
-    //         } catch (error) {
-    //             console.error('Ошибка загрузки изображений:', error);
-    //         }
-    //     };
-    //     fetchImages();
-    // }, []);
 
     if (images.length === 0) {
         return <p className="text-center text-gray-500">...</p>;
