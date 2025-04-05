@@ -67,7 +67,7 @@ const HomeLastProjects: FC<HomeLastProjectsProps> = ({ projects }) => {
             <div className='p-0 flex flex-col  sm:px-2 md:px-8 lg:px-8 xl:px-2'>
                 <div className='w-full flex flex-row flex-wrap justify-center'>
                     {/* Слайдер с изображениями */}
-                    <div className='w-1/2  min-w-96 xs:min-w-full max-h-64'>
+                    <div className='w-1/2  min-w-96 xs:min-w-full max-h-80'>
                         <Swiper
                             key={`home_projects_swiper`}
                             modules={[Navigation, Pagination, Thumbs, Autoplay]}
