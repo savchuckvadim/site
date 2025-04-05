@@ -1,1 +1,1 @@
-export {default as ThemeMode} from './theme'
+export {default as ThemeMode} from './theme/Theme'

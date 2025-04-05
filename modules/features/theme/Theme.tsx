@@ -12,7 +12,7 @@ export default function ThemeMode() {
 
     // Устанавливаем начальное состояние темы на клиенте
     useEffect(() => {
-        const storedTheme = (localStorage.getItem('theme') as 'violete' | 'default' | 'blue') || 'violete';
+        const storedTheme = (localStorage.getItem('theme') as 'violete' | 'default' | 'blue') || 'default';
         const storedMode = (localStorage.getItem('mode') === 'dark' ? 'dark' : 'light') as 'dark' | 'light';
 
         setTheme(storedTheme);
