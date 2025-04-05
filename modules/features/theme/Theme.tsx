@@ -7,13 +7,13 @@ export default function ThemeMode() {
     const [darkMode, setDarkMode] = useState<'dark' | 'light'>('light');
     const [isSpinning, setIsSpinning] = useState<boolean>(false);
     const [isThemeSpinning, setIsThemeSpinning] = useState<boolean>(false);
-    const [isMounted, setIsMounted] = useState<boolean>(false); // Для проверки монтирования
+    const [isMounted, setIsMounted] = useState<boolean>(false); 
 
     const [theme, setTheme] = useState<'violete' | 'default' | 'blue'>('default');
 
     // Устанавливаем начальное состояние темы на клиенте
     useEffect(() => {
-        setIsMounted(true); // Компонент успешно смонтировался
+        setIsMounted(true); 
 
         const storedTheme = (localStorage.getItem('theme') as 'violete' | 'default' | 'blue') || 'default';
         const storedMode = (localStorage.getItem('mode') === 'dark' ? 'dark' : 'light') as 'dark' | 'light';
@@ -22,8 +22,8 @@ export default function ThemeMode() {
         setDarkMode(storedMode);
 
         // Устанавливаем классы на body после монтирования
-        document.documentElement.classList.add(storedTheme);
-        document.documentElement.classList.toggle('dark', storedMode === 'dark');
+        document.body.classList.add(storedTheme);
+        document.body.classList.toggle('dark', storedMode === 'dark');
     }, []);
 
     const toggleMode = () => {
@@ -34,7 +34,7 @@ export default function ThemeMode() {
         setTimeout(() => setIsSpinning(false), 500);
 
         localStorage.setItem('mode', newMode);
-        document.documentElement.classList.toggle("dark", newMode === 'dark');
+        document.body.classList.toggle("dark", newMode === 'dark');
     };
 
     const toggleTheme = () => {
@@ -45,11 +45,10 @@ export default function ThemeMode() {
         setTheme(newTheme);
         localStorage.setItem('theme', newTheme);
 
-        document.documentElement.classList.remove('violete', 'blue', 'default');
-        document.documentElement.classList.add(newTheme);
+        document.body.classList.remove('violete', 'blue', 'default');
+        document.body.classList.add(newTheme);
     };
 
-    // Если компонент не смонтирован, не рендерим
     if (!isMounted) return null;
 
     return (
