@@ -6,6 +6,7 @@ import HomeServices from './components/HomeServices';
 import HomeLastProjects from './components/HomeLastProjects';
 import { useProjects } from '@/modules/entities/Project';
 import LoadingScreen from '@/modules/shared/LoadingScreen/ui/LoadingScreen';
+import { AnimatedText } from '@/modules/shared';
 
 const HomePage = () => {
     const { projects, loading, isFetched, error } = useProjects();
@@ -28,6 +29,7 @@ const HomePage = () => {
                         <HomeHeroInfo />
                     </Hero>
                     <HomeServices />
+                    
                     <HomeLastProjects projects={lastProjects} />
                 </>
                 : <LoadingScreen />
