@@ -72,7 +72,7 @@ export default function FullSlider({ images, withNames, oneTitle }: FullSliderPr
                                 height={1080}
                                 priority // Приоритетная загрузка
                                 placeholder="blur" // Плавное появление
-                                blurDataURL="/vercel.svg" // Путь к картинке-заглушке
+                                blurDataURL="/volkov.svg"// Путь к картинке-заглушке
                                 className="w-full h-full object-cover"
                             />
                             {/* <img

@@ -68,7 +68,7 @@ export default function HeroSlider({ images }: { images: Project[] }) {
                                     height={1080}
                                     priority // Приоритетная загрузка
                                     placeholder="blur" // Плавное появление
-                                    blurDataURL="/vercel.svg" // Путь к картинке-заглушке
+                                    blurDataURL="/volkov.svg" // Путь к картинке-заглушке
                                     className="w-full h-full object-cover"
                                 />
                                 {/* <img

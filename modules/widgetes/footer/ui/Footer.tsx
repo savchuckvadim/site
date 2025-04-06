@@ -1,6 +1,7 @@
 import Image from "next/image";
 
 export default function Footer() {
+  
   return (
     <footer className="flex flex-col items-center justify-center gap-4 p-6 bg-white-800 text-white">
       <div className="flex gap-6">

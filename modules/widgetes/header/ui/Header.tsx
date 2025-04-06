@@ -17,19 +17,31 @@ export default function Header() {
     // Проверяем, находимся ли на странице портфолио
     const isPortfolio = pathname === "/portfolio" || pathname === "/home";
     const [isMounted, setIsMounted] = useState<boolean>(false);
+    const [hoverClass, setHoverClass] = useState('')
     useEffect(() => {
         setIsMounted(true);
-    }, [])
-    // const [darkMode, setDarkMode] = useState(false);
 
-    // const toggleTheme = () => {
-    //     setDarkMode(!darkMode);
-    //     if (darkMode) {
-    //         document.documentElement.classList.remove("dark");
-    //     } else {
-    //         document.documentElement.classList.add("dark");
-    //     }
-    // };
+    }, [])
+    const [theme, setTheme] = useState<'violete' | 'default' | 'blue'>('default');
+
+    useEffect(() => {
+        const storedTheme = (localStorage.getItem('theme') as 'violete' | 'default' | 'blue') || 'default';
+        setTheme(storedTheme);
+
+        theme === 'default'
+            ? setHoverClass('hover:text-gray-300')
+            : setHoverClass('hover:text-primary');
+    }, []);
+
+    useEffect(() => {
+        theme === 'default'
+            ? setHoverClass('hover:text-gray-300')
+            : setHoverClass('hover:text-primary');
+
+
+    }, [theme])
+
+
     return (
         <header className={`w-full py-4 shadow-md ${isPortfolio ? "blr" : "bg-backgound"}`}>
             {/* <header className={`w-full py-4 shadow-md bg-background`}> */}
@@ -46,6 +58,7 @@ export default function Header() {
                             width={120}
                             height={85}
                             className="backgound:invert"
+                            priority
                         />
 
                         {/* <span className="text-lg text-accent-foreground font-semibold">Volkov Design</span> */}
@@ -56,13 +69,17 @@ export default function Header() {
 
                 {/* Десктопное меню */}
                 <nav className="hidden md:flex gap-4">
-                    <Link href="/" className="hover:text-gray-300">Home</Link>
+                    {/* <Link href="/" className="hover:text-gray-300">Home</Link>
                     <Link href="/about" className="hover:text-gray-300">About us</Link>
                     <Link href="/portfolio" className="hover:text-gray-300">Portfolio</Link>
-                    <Link href="/admin" className="hover:text-gray-300">Login</Link>
-                    {/* <Suspense fallback={<div>Загрузка...</div>}> */}
+                    <Link href="/admin" className="hover:text-gray-300">Login</Link> */}
 
-                    {isMounted && <ThemeMode />}
+                    <Link href="/" className={`cursor-pointer ${hoverClass}`}>Home</Link>
+                    <Link href="/about" className={`cursor-pointer ${hoverClass}`}>Services</Link>
+                    <Link href="/portfolio" className={`cursor-pointer ${hoverClass}`}>Portfolio</Link>
+                    <Link href="/admin" className={`cursor-pointer ${hoverClass}`}>Login</Link>
+
+                    {isMounted && <ThemeMode setOuterTheme={setTheme} />}
                     {/* </Suspense> */}
                 </nav>
 

@@ -12,3 +12,7 @@ export type ProjectsContextType = {
   error?: string;
   isFetched: boolean;
 };
+
+export interface ProjectDetails extends Project {
+  project_details: Project[]
+}

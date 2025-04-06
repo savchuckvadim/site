@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { Dice1, Dice2, Dice3, MoonStar, SunDim } from "lucide-react";
 
-export default function ThemeMode() {
+export default function ThemeMode({ setOuterTheme }: { setOuterTheme?: (theme: "violete" | "default" | "blue") => void }) {
     const [darkMode, setDarkMode] = useState<'dark' | 'light'>('light');
     const [isSpinning, setIsSpinning] = useState<boolean>(false);
     const [isThemeSpinning, setIsThemeSpinning] = useState<boolean>(false);
@@ -41,8 +41,9 @@ export default function ThemeMode() {
         setIsThemeSpinning(true);
         setTimeout(() => setIsThemeSpinning(false), 500);
 
-        const newTheme = theme === 'violete' ? 'blue' : theme === 'blue' ? 'default' : 'violete';
+        const newTheme: "violete" | "default" | "blue" = theme === 'violete' ? 'blue' : theme === 'blue' ? 'default' : 'violete';
         setTheme(newTheme);
+        setOuterTheme && setOuterTheme(newTheme)
         localStorage.setItem('theme', newTheme);
 
         document.body.classList.remove('violete', 'blue', 'default');

@@ -102,7 +102,7 @@ const HomeLastProjects: FC<HomeLastProjectsProps> = ({ projects }) => {
                                             height={1080}
                                             priority
                                             placeholder="blur"
-                                            blurDataURL="/vercel.svg"
+                                            blurDataURL="/volkov.svg"
                                         // className="w-auto h-[500px]"
                                         />
                                         {/* <div className="absolute bottom-0 left-0 bg-black/60 text-white p-4">

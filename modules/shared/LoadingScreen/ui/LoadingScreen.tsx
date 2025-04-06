@@ -3,8 +3,8 @@
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import './loading.css';
-import { Rabbit } from 'lucide-react';
 import ScaleLoader from "react-spinners/ScaleLoader";
+import Image from 'next/image';
 const LoadingScreen = () => {
     const [isVisible, setIsVisible] = useState(true);
 
@@ -17,7 +17,7 @@ const LoadingScreen = () => {
     }, []);
 
     return (
-        <div className="bg-primary">
+        <div className="bg-white">
             {isVisible &&
 
                 (
@@ -31,13 +31,28 @@ const LoadingScreen = () => {
                         <div className="center-spinner color-primary flex flex-col justify-center items-center">
                             {/* <div className="spinner color-primary"></div>
                          */}
-                            <Rabbit size={50} />
-                            <ScaleLoader
-                                className='mt-3 color-foreground'
-                                height={5}
-                                width={12}
+                            {/* <Rabbit size={50} />
+                             */}
+                            <div className='p-5 rounded-xl bg-white'>
+                                <Image
+                                    src="/volkov.svg"
+                                    alt="Logo"
+                                    width={120}
+                                    height={85}
+                                    className="backgound:invert"
+                                    priority
+                                />
+
+
+                            </div>
+                            <div className='p-2 h-2 flex justify-center items-center  mt-3  rounded-xl bg-white'>
+                                <ScaleLoader
+                                    className='m-0 p-0 color-foreground '
+                                    height={3}
+                                    width={25}
                                 // color='foreground'
-                            />
+                                />
+                            </div>
                         </div>
 
                         {/* <motion.div
@@ -50,7 +65,7 @@ const LoadingScreen = () => {
                         <p className='mt-10'>Loading...</p> */}
                         {/* Верхняя половина */}
                         <motion.div
-                            className="reveal-top bg-background"
+                            className="reveal-top bg-white"
                             initial={{ y: 0 }}
                             animate={{ y: '-100%' }}
                             exit={{ y: '-100%' }}
@@ -59,7 +74,7 @@ const LoadingScreen = () => {
 
 
                         <motion.div
-                            className="reveal-bottom bg-background"
+                            className="reveal-bottom bg-white"
                             initial={{ y: 0 }}
                             animate={{ y: '100%' }}
                             exit={{ y: '100%' }}

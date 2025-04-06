@@ -4,12 +4,17 @@ export {
     projectActions
 } from './model/ProjectSlice'
 
-export { fetchProjects } from './model/ProjectThunk'
+export {
+    fetchProjects,
+    fetchAllDetails,
+    fetchProjectDetails
+} from './model/ProjectThunk'
 
 export type {
-    Project
+    Project,
+    ProjectDetails
 } from './type/project-type'
 
-export {getProjects} from './lib/helper'
+export { getProjects } from './lib/helper'
 export { ProjectsProvider } from './provider/ProjectsProvider'
-export { useProjects } from './lib/hook'
+export { useProjects, useProjectDetails } from './lib/hook'

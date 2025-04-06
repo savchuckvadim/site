@@ -253,7 +253,7 @@ export const supaAuth = {
 
             console.log("Логин успешен!");
             const result = await response.json() as Promise<User>;
-            debugger
+
             return result
         } catch (error: any) {
             console.error("Ошибка при логине:", error.message);
@@ -322,7 +322,7 @@ export const supaAuth = {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ }),
+                body: JSON.stringify({}),
             });
 
             if (!response.ok) {
@@ -332,7 +332,7 @@ export const supaAuth = {
 
             console.log("Log out успешен!");
             const result = await response.json();
-            debugger
+
             return result
         } catch (error: any) {
             console.error("Ошибка при Log out:", error.message);

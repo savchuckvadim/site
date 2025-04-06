@@ -9,7 +9,7 @@
 // }
 // async function getDetails(parentId: number): Promise<ProjectDetails | null> {
 //   try {
-//     debugger
+//     
 //     // const response = await supaAPI.getByRelation(SModel.PROJECT_DETAILS, SModel.PROJECT, parentId);
 //     const supabase = await createSupabaseServerClient()
 //     const { data, error } = await supabase
@@ -33,11 +33,11 @@
 //     }
 
 
-//     debugger
+//     
 
 //     return null;
 //   } catch (error) {
-//     debugger
+//     
 //     console.error("Ошибка загрузки изображений:", error);
 //     return null;
 //   }
