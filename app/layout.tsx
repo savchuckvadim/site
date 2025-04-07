@@ -24,14 +24,7 @@ export const metadata: Metadata = {
     description: "Discover top-notch interior design and architecture solutions.",
     url: "https://volkovdesign.com",
     siteName: "Volkov Design",
-    // images: [
-    //   {
-    //     url: "https://volkovdesign.com/og-image.jpg",
-    //     width: 1200,
-    //     height: 630,
-    //     alt: "Volkov Design Logo",
-    //   },
-    // ],
+
     locale: "en_US",
     type: "website",
   },

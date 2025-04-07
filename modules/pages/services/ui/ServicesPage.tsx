@@ -1,9 +1,7 @@
 'use client'
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader } from '@/components/ui/card';
+
 import { ScrollToTop } from '@/modules/shared';
 import ModalPhone from '@/modules/shared/modal/ui/ModalPhone';
-import { motion } from 'framer-motion';
 import { useState } from 'react';
 
 const services = [
@@ -24,10 +22,10 @@ const services = [
     },
 ];
 
-const cardVariants = {
-    hidden: { opacity: 0, y: 50 },
-    visible: { opacity: 1, y: 0 },
-};
+// const cardVariants = {
+//     hidden: { opacity: 0, y: 50 },
+//     visible: { opacity: 1, y: 0 },
+// };
 
 export default function ServicesPage() {
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -51,8 +49,8 @@ export default function ServicesPage() {
                                 onClick={handleCardClick}
                                 key={service.title}
                                 className={`bg-secondary cursor-pointer rounded-xl shadow-md overflow-hidden hover:scale-105 transition-transform 
-                                ${index === services.length - 1 && services.length % 2 !== 0 ? 'md:col-span-2 md:mx-auto' : ''}`}
-                                style={{ maxWidth: index === services.length - 1 && services.length % 2 !== 0 ? '50%' : 'auto' }}
+                                ${index === services.length - 1 && services.length % 2 !== 0 ? 'col-span-2 md:col-span-1 md:mx-auto' : ''}`}
+                                // style={{ maxWidth: index === services.length - 1 && services.length % 2 !== 0 ? '50%' : 'auto' }}
                             >
                                 <div className="p-4">
                                     <h3 className="text-accent-foreground text-bold cursor-pointer text-xl font-semibold mb-2">{service.title}</h3>
