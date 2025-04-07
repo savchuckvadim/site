@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { Dice1, Dice2, Dice3, MoonStar, SunDim } from "lucide-react";
-
+import './style.css'
 export default function ThemeMode({ setOuterTheme }: { setOuterTheme?: (theme: "violete" | "default" | "blue") => void }) {
     const [darkMode, setDarkMode] = useState<'dark' | 'light'>('light');
     const [isSpinning, setIsSpinning] = useState<boolean>(false);
@@ -39,7 +39,7 @@ export default function ThemeMode({ setOuterTheme }: { setOuterTheme?: (theme: "
 
     const toggleTheme = () => {
         setIsThemeSpinning(true);
-        setTimeout(() => setIsThemeSpinning(false), 500);
+        setTimeout(() => setIsThemeSpinning(false), 800);
 
         const newTheme: "violete" | "default" | "blue" = theme === 'violete' ? 'blue' : theme === 'blue' ? 'default' : 'violete';
         setTheme(newTheme);
@@ -54,7 +54,7 @@ export default function ThemeMode({ setOuterTheme }: { setOuterTheme?: (theme: "
 
     return (
         <>
-            <div onClick={toggleTheme} className={`cursor-pointer text-foreground ${isThemeSpinning ? 'animate-spin' : ''}`}>
+            <div onClick={toggleTheme} className={`cursor-pointer text-foreground ${isThemeSpinning ? 'animate-spin-fast animate-shake' : ''}`}>
 
                 {theme == 'default' ? <Dice1 color={darkMode === 'dark' ? "white" : "black"} />
                     : theme == 'blue' ? <Dice2 color="blue" />
@@ -64,7 +64,7 @@ export default function ThemeMode({ setOuterTheme }: { setOuterTheme?: (theme: "
 
             </div>
             <div
-                className="p-0 flex items-center justify-center cursor-pointer transition-transform duration-300"
+                className="p-0 ml-2 md:m-0 flex items-center justify-center cursor-pointer transition-transform duration-300"
                 onClick={toggleMode}
             >
                 <div className={`text-foreground ${isSpinning ? 'animate-spin' : ''}`}>

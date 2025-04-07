@@ -1,7 +1,9 @@
 'use client'
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
+import ModalPhone from '@/modules/shared/modal/ui/ModalPhone';
 import { motion } from 'framer-motion';
+import { useState } from 'react';
 
 const services = [
     {
@@ -27,38 +29,44 @@ const cardVariants = {
 };
 
 export default function ServicesPage() {
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
+    const handleCardClick = () => {
+        setIsModalOpen(true);
+    };
+
+    const closeModal = () => {
+        setIsModalOpen(false);
+    };
+
     return (
         <>
+            <div className="p-10 w-full mt-10 flex justify-center items-center">
+                <div className="w-full md:w-3/4 lg:w-5/6">
+                    <h1 className="text-center w-full text-4xl ml-3 font-bold mb-8">Services</h1>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 p-4">
+                        {services.map((service, index) => (
+                            <div
+                                onClick={handleCardClick}
+                                key={service.title}
+                                className={`bg-secondary cursor-pointer rounded-xl shadow-md overflow-hidden hover:scale-105 transition-transform 
+                                ${index === services.length - 1 && services.length % 2 !== 0 ? 'md:col-span-2 md:mx-auto' : ''}`}
+                                style={{ maxWidth: index === services.length - 1 && services.length % 2 !== 0 ? '50%' : 'auto' }}
+                            >
+                                <div className="p-4">
+                                    <h3 className="text-accent-foreground text-bold cursor-pointer text-xl font-semibold mb-2">{service.title}</h3>
+                                    <p className="text-bold text-lg text-primary mt-1">{service.price}</p>
+                                    <p className="text-accent-foreground">{service.description}</p>
 
-            <div className=" flex flex-wrap flex-row items-start justify-center mt-20  p-10 ">
-                {services.map((service, index) => (
-                    // <motion.div
-                    //     key={service.title}
-                    //     initial="hidden"
-                    //     animate="visible"
-                    //     // transition={{ duration: 0.5, delay: index * 0.2 }}
-                    //     variants={cardVariants}
-                    //     className="min-w-1/3 w-1/3 m-4"
-                    // >
-                    <Card className="h-72 min-w-1/3 w-1/3 m-4 shadow-xl hover:shadow-2xl transition-all">
-                        <CardHeader className="text-center p-4 bg-gradient-to-r from-blue-500 to-pink-700 text-white rounded-t-lg">
-                            <h2 className="text-2xl font-bold">{service.title}</h2>
-                            <p className="text-lg mt-1">{service.price}</p>
-                        </CardHeader>
-                        <CardContent className="p-4">
-                            <p className="text-foreground text-justify">{service.description}</p>
-                        </CardContent>
-                    </Card>
-                    // </motion.div>
-                ))}
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+                {/* Modal Component */}
+                <ModalPhone isOpen={isModalOpen} onClose={closeModal} />
             </div>
-            <div className='mt-13  w-full flex justify-center items-center m-1  mb-7'>
 
-                <Button variant={'default'} className=' w-[300px] h-[50px]'>
-                    Call me now
-                </Button>
-            </div>
         </>
-
     );
 }

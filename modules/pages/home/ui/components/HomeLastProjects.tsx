@@ -1,13 +1,14 @@
 'use client'
 import React, { FC, useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { Autoplay, Mousewheel, Navigation, Pagination, Thumbs } from 'swiper/modules';
+import { Autoplay, Navigation, Pagination, Thumbs } from 'swiper/modules';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
-import { Card, CardContent } from '@/components/ui/card';
+
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Project } from '@/modules/entities/Project';
+import ModalPhone from '@/modules/shared/modal/ui/ModalPhone';
 
 
 interface HomeLastProjectsProps {
@@ -123,6 +124,15 @@ const HomeLastProjects: FC<HomeLastProjectsProps> = ({ projects }) => {
                     </div>
                 </div>
             </div>
+            <ModalPhone
+                ButtonInit={
+                    <div className='w-full flex justify-center items-center m-1 mt-20 mb-10'>
+                        <Button variant={'default'} className='w-[300px] h-[50px]'>
+                            Call me now
+                        </Button>
+                    </div>
+                }
+            />
         </div >
     );
 }

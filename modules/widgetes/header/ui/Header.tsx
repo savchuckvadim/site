@@ -112,23 +112,27 @@ export default function Header() {
                         </nav>
 
                         {/* Мобильное бургер-меню */}
-                        <div className="md:hidden">
-                            <Popover>
-                                <PopoverTrigger asChild>
-                                    <Button variant="ghost" className="p-2">
-                                        <Menu size={24} />
-                                    </Button>
-                                </PopoverTrigger>
-                                <PopoverContent className="mr-1 p-2 w-48 bg-white rounded-lg shadow-md text-black">
-                                    <nav className="flex flex-col gap-2">
-                                        <Link href="/" className="hover:text-gray-300">Home</Link>
-                                        <Link href="/services" className="hover:text-gray-300">About us</Link>
-                                        <Link href="/portfolio" className="hover:text-gray-300">Portfolio</Link>
-                                        <Link href="/admin" className="hover:text-gray-300">Админка</Link>
-                                    </nav>
-                                </PopoverContent>
-                            </Popover>
+                        <div className="md:hidden flex flex-row justify-center items-center">
+                            {isMounted && <ThemeMode setOuterTheme={setTheme} />}
+                            <div className="md:hidden ">
+                                <Popover>
+                                    <PopoverTrigger asChild>
+                                        <Button variant="ghost" className="p-2">
+                                            <Menu size={24} />
+                                        </Button>
+                                    </PopoverTrigger>
+                                    <PopoverContent className="mr-1 p-2 w-48 bg-white rounded-lg shadow-md text-black">
+                                        <nav className="flex flex-col gap-2">
+                                            <Link href="/" className="hover:text-gray-300">Home</Link>
+                                            <Link href="/services" className="hover:text-gray-300">About us</Link>
+                                            <Link href="/portfolio" className="hover:text-gray-300">Portfolio</Link>
+                                            <Link href="/admin" className="hover:text-gray-300">Админка</Link>
+                                        </nav>
+                                    </PopoverContent>
+                                </Popover>
+                            </div>
                         </div>
+
                     </div>
                 </header>
             </motion.div>

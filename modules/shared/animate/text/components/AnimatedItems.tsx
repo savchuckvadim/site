@@ -61,7 +61,7 @@ const AnimatedItems = () => {
                         delay: index * 0.3, // задержка между карточками
                         scrollTrigger: {
                             trigger: card,
-                            start: 'top 90%',
+                            start: 'top 60%',
                             end: 'top 50%',
                             toggleActions: 'play none none reverse',
                         },

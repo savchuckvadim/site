@@ -5,8 +5,8 @@ import React from 'react';
 const HomeHeroInfo = ({ }) => {
     return (
         <div className='home-hero-information-block w-xs  py-4 flex flex-col  p-5 justify-center items-start'>
-            <h1 className='text-4xl font-extrabold'>Elegant and Unique Design</h1>
-            <p className='mt-2'>Right design and right ideas matter a lot of in interior design business. </p>
+            <h1 className='text-4xl font-extrabold text-white'>Elegant and Unique Design</h1>
+            <p className='mt-2  text-white'>Right design and right ideas matter a lot of in interior design business. </p>
             <Link
                 href="/portfolio"
             >

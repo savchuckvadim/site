@@ -8,6 +8,7 @@ import Image from 'next/image';
 import AnimatedItemsSmall from './components/AnimatedItemsSmall';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
+import ModalPhone from '../../modal/ui/ModalPhone';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -78,13 +79,20 @@ export default function CoolText() {
     return (
         <div>
             <div className='w-full flex justify-center items-center m-1 mt-10 mb-10'>
-                <Link
-                    href='/portfolio'
-                >
-                    <Button variant={'default'} className='w-[300px] h-[50px]'>
+              
+                    <ModalPhone
+                        ButtonInit={
+                            <div className='w-full flex justify-center items-center m-1 mt-10 mb-10'>
+                                <Button variant={'default'} className='w-[300px] h-[50px]'>
+                                    Call me now
+                                </Button>
+                            </div>
+                        }
+                    />
+                    {/* <Button variant={'default'} className='w-[300px] h-[50px]'>
                         get
-                    </Button>
-                </Link>
+                    </Button> */}
+            
             </div>
             <div className='flex flex-col md:flex-row h-[500px] '>
                 <div className="h-full 

@@ -35,10 +35,10 @@ const ScrollToTop = ({ }) => {
                     exit={{ opacity: 0, scale: 0.8 }}
                     transition={{ duration: 0.3 }}
                     onClick={scrollToTop}
-                    className="w-[40px] h-[40px] fixed bottom-8 right-8 p-1 rounded-full bg-secondary  text-white opacity-50 hover:bg-opacity-100 transition-all shadow-lg"
+                    className="w-[50px] h-[50px] fixed bottom-8 right-8 p-1 rounded-full  bg-opacity-40 hover:bg-opacity-100 transition-all shadow-lg"
                     aria-label="Back to top"
                 >
-                    <p className='text-primary'>
+                    <p className='text-primary text-bold text-3xl'>
                         ↑
                     </p>
                 </motion.button>
