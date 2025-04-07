@@ -1,8 +1,8 @@
-import { Button } from '@/components/ui/button';
+
 import { AnimatedText } from '@/modules/shared';
 import AnimatedItems from '@/modules/shared/animate/text/components/AnimatedItems';
 import AnimatedItemsSmall from '@/modules/shared/animate/text/components/AnimatedItemsSmall';
-import Link from 'next/link';
+
 import React from 'react';
 
 const HomeServices = ({ }) => {
@@ -14,7 +14,7 @@ const HomeServices = ({ }) => {
                 <AnimatedText />
 
             </div>
-            <div className='w-full flex justify-center items-cente mt-10  mb-10'>
+            {/* <div className='w-full flex justify-center items-cente mt-10  mb-10'>
                 <Link
                     href='/about'
                 >
@@ -22,7 +22,7 @@ const HomeServices = ({ }) => {
                         Services
                     </Button>
                 </Link>
-            </div>
+            </div> */}
 
         </div>
     );

@@ -56,12 +56,12 @@ const AnimatedItems = () => {
                     {
                         y: 0,
                         opacity: 1,
-                        duration: 0.2,
+                        duration: index * 0.1,
                         ease: 'power3.out',
-                        delay: index * 0.2, // задержка между карточками
+                        delay: index * 0.3, // задержка между карточками
                         scrollTrigger: {
                             trigger: card,
-                            start: 'top 60%',
+                            start: 'top 90%',
                             end: 'top 50%',
                             toggleActions: 'play none none reverse',
                         },
@@ -72,17 +72,17 @@ const AnimatedItems = () => {
     }, []);
 
     return (
-        <div className="flex flex-row justify-between gap-6 p-4">
+        <div className=" flex flex-col lg:flex-row lg:items-start items-center justify-between gap-6 p-4">
             {data.map((item, index) => (
                 <div
                     key={item.title}
                     ref={(el) => {
                         if (el) cardRefs.current[index] = el;
                     }}
-                    className="flex flex-col items-start w-80 p-6 bg-white shadow-lg rounded-lg transform transition-all duration-500"
+                    className="bg-white min-h-60 flex flex-col items-start xs:w-80 md:w-4/5 p-6 bg-white shadow-lg rounded-lg transform transition-all duration-500"
                 >
-                    <h3 className="text-xl text-secondary  font-bold mb-2">{item.title}</h3>
-                    <p className="text-gray-600">{item.description}</p>
+                    <h3 className="text-xl text-gray-900 font-bold mb-2">{item.title}</h3>
+                    <p className="text-gray-900">{item.description}</p>
                 </div>
             ))}
         </div>

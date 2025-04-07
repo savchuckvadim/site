@@ -72,17 +72,17 @@ const AnimatedItemsSmall = () => {
     }, []);
 
     return (
-        <div className="flex flex-row justify-between gap-6 p-4">
+        <div className="flex flex-col lg:flex-row lg:items-start items-center justify-between gap-6 p-4">
             {smallData.map((item, index) => (
                 <div
                     key={item.title}
                     ref={(el) => {
                         if (el) cardRefs.current[index] = el;
                     }}
-                    className="flex flex-col items-start w-80 p-6 bg-white shadow-lg rounded-lg transform transition-all duration-500"
+                    className="h-48 flex flex-col items-start w-full md:w-4/5 p-6 bg-white shadow-lg rounded-lg transform transition-all duration-500"
                 >
-                    <h3 className="text-xl text-secondary font-bold mb-2">{item.title}</h3>
-                    <p className="text-secondary">{item.description}</p>
+                    <h3 className="w-full text-center text-xl text-gray-900 font-bold mt-5 mb-2">{item.title}</h3>
+                    <p className="text-gray-900">{item.description}</p>
                 </div>
             ))}
         </div>

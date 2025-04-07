@@ -20,7 +20,7 @@ import Image from 'next/image';
 
 type Image = Project
 
-const baseUrl = '/api/projects';
+// const baseUrl = '/api/projects';
 
 export default function HeroSlider({ images }: { images: Project[] }) {
     // const [images, setImages] = useState<Image[]>([]);

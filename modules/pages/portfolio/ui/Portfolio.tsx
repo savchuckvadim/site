@@ -17,6 +17,7 @@ const Portfolio = ({ }) => {
         {
             isFetched && !loading
                 ? <HeroSlider images={projects} />
+                
                 : <LoadingScreen />
         }
 

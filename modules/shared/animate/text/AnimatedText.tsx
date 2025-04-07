@@ -86,16 +86,24 @@ export default function CoolText() {
                     </Button>
                 </Link>
             </div>
-            <div className='flex flex-row h-[500px] '>
-                <div className="h-full w-1/2  text-white flex flex-col items-center justify-center p-10">
-                    <h1 className='text-3xl mb-10'>
+            <div className='flex flex-col md:flex-row h-[500px] '>
+                <div className="h-full 
+                w-full 
+                md:w-1/2  
+                text-white 
+                flex 
+                flex-col 
+                items-center 
+                justify-center 
+                p-10">
+                    <h1 className='text-3xl mb-10 text-accent-foreground'>
                         From Idea to Reality
                     </h1>
-                    <p>
+                    <p className='text-accent-foreground'>
                         Your vision is brought to life by our in-house team of professionals. We manage the full construction/renovation process from concept, budgeting and purchasing of materials to lighting, heating and furniture installation. Our pool of suppliers, vendors and manufacturers provide us with discounts which allow significant budget cuts.
                     </p>
                 </div>
-                <div className="h-full w-1/2 bg-background text-white flex flex-col items-center justify-center p-10">
+                <div className="h-full w-1/2 bg-background text-white hidden md:flex flex-col items-center justify-center p-10">
                     {/* <div className='w-1/2'> */}
                     <Image
                         src="/feat.jpg"
@@ -107,8 +115,8 @@ export default function CoolText() {
                     {/* </div> */}
                 </div>
             </div>
-            <div className="h-full w-full p-5  flex flex-row flex-wrap items-center justify-center mb-10 pt-20">
-                <div className='w-1/2 p-5'>
+            <div className="h-full w-full p-5  flex flex-col md:flex-row  flex-wrap items-center justify-center mb-10 pt-20">
+                <div className='w-full  md:w-1/2 p-5'>
                     <div
                         ref={textRef}
                         className="text-5xl text-primary font-bold "
@@ -121,7 +129,7 @@ export default function CoolText() {
 
 
                 </div>
-                <div className='w-1/2 p-5'>
+                <div className='w-full  md:w-1/2 p-5'>
                     <p >
                         {descriptionFirst}
                     </p>
