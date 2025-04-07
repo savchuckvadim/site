@@ -1,6 +1,7 @@
 'use client'
 
 import { useProjectDetails } from '@/modules/entities/Project';
+import { ScrollToTop } from '@/modules/shared';
 import LoadingScreen from '@/modules/shared/LoadingScreen/ui/LoadingScreen';
 import FullSlider from '@/modules/shared/slider/ui/FullSlider';
 import React, { FC } from 'react';
@@ -21,7 +22,7 @@ const Details: FC<{ projectId: number }> = ({ projectId }) => {
 
                 : <LoadingScreen />
         }
-
+        <ScrollToTop />
     </>
     );
 }

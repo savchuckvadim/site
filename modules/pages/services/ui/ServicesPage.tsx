@@ -1,6 +1,7 @@
 'use client'
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
+import { ScrollToTop } from '@/modules/shared';
 import ModalPhone from '@/modules/shared/modal/ui/ModalPhone';
 import { motion } from 'framer-motion';
 import { useState } from 'react';
@@ -66,7 +67,7 @@ export default function ServicesPage() {
                 {/* Modal Component */}
                 <ModalPhone isOpen={isModalOpen} onClose={closeModal} />
             </div>
-
+            <ScrollToTop />
         </>
     );
 }
