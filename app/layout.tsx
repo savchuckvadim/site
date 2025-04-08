@@ -27,13 +27,13 @@ export const metadata: Metadata = {
     locale: "en_US",
     type: "website",
   },
-  twitter: {
-    card: "summary_large_image",
-    title: "Volkov Design",
-    description: "Elegant and Unique Design",
-    creator: "@volkovdesign",
-    // images: ["https://volkovdesign.com/twitter-image.jpg"],
-  },
+  // twitter: {
+  //   card: "summary_large_image",
+  //   title: "Volkov Design",
+  //   description: "Elegant and Unique Design",
+  //   creator: "@volkovdesign",
+  //   // images: ["https://volkovdesign.com/twitter-image.jpg"],
+  // },
 };
 
 
