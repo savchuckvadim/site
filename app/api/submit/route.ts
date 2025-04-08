@@ -5,20 +5,26 @@ import { NextRequest, NextResponse } from 'next/server';
 
 export async function POST(req: NextRequest) {
   try {
-
-    const data = await req.json()
-    
+    let body;
+    // const data = await req.json()
+    try {
+      // Попытка получить данные из тела
+      body = await req.json();
+    } catch (err) {
+      // Если тело пустое или невалидное, присваиваем значение по умолчанию
+      body = { message: 'No data received', error: err };
+    }
 
     const response = NextResponse.redirect(new URL('/auth/login', req.url));
 
     // Устанавливаем куки, если данные есть
-    if (data) {
-      response.cookies.set('bx_yo_data', data, { path: '/', maxAge: 60 * 60 * 24 });
+    if (body) {
+      response.cookies.set('bx_yo_data', body, { path: '/', maxAge: 60 * 60 * 24 });
     }
 
 
 
-
+    return response;
 
   } catch (error) {
     console.error('Ошибка обработки запроса:', error);
