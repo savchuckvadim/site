@@ -18,7 +18,6 @@ export const metadata: Metadata = {
   title: "Volkov Design",
   description: "Elegant and Unique Design",
   keywords: ["Design", "Interior Design", "Architecture"],
-  themeColor: "#000000",
   openGraph: {
     title: "Volkov Design - Elegant and Unique",
     description: "Discover top-notch interior design and architecture solutions.",
