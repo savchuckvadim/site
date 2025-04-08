@@ -1,36 +1,33 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-// Получение всех проектов
 
 
 export async function POST(req: NextRequest) {
   try {
     let body;
-    // const data = await req.json()
     try {
-      // Попытка получить данные из тела
+      // Попытка получить данные из тела запроса
       body = await req.json();
     } catch (err) {
       // Если тело пустое или невалидное, присваиваем значение по умолчанию
       body = { message: 'No data received', error: err };
     }
 
-    const response = NextResponse.redirect(new URL('/auth/login', req.url));
+    // Корректный редирект с методом GET
+    const response = NextResponse.redirect(new URL('/auth/login', req.url), 303);
 
     // Устанавливаем куки, если данные есть
     if (body) {
-      response.cookies.set('bx_yo_data', body, { path: '/', maxAge: 60 * 60 * 24 });
+      response.cookies.set('bx_yo_data', JSON.stringify(body), { path: '/', maxAge: 60 * 60 * 24 });
     }
 
-
-
     return response;
-
   } catch (error) {
     console.error('Ошибка обработки запроса:', error);
     return NextResponse.json({ error: 'Ошибка загрузки файла' }, { status: 500 });
   }
 }
+
 
 
 
