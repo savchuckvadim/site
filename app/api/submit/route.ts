@@ -1,11 +1,21 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-
+interface RequestData {
+  headers: Record<string, string>;
+  body: unknown;
+  cookies: Record<string, string>;
+  query: string;
+}
 
 export async function POST(req: NextRequest) {
   try {
-    // Инициализируем объект для хранения данных
-    const requestData: Record<string, any> = {};
+
+    const requestData: RequestData = {
+      headers: {},
+      body: null,
+      cookies: {},
+      query: '',
+    };
 
     // Заголовки запроса
     requestData.headers = {};
@@ -18,6 +28,7 @@ export async function POST(req: NextRequest) {
       const body = await req.json();
       requestData.body = body;
     } catch (err) {
+      console.log(err)
       requestData.body = 'Не удалось распарсить тело запроса';
     }
 
@@ -33,15 +44,25 @@ export async function POST(req: NextRequest) {
     // Логи
     console.log('Все данные запроса:', requestData);
 
-    // Возвращаем все данные в формате JSON
-    return NextResponse.json({ message: 'Получены данные', data: requestData });
+    // Корректный редирект с методом GET
+    const response = NextResponse.redirect(new URL('/auth/login', req.url), 303);
+
+    // Устанавливаем куки, если данные есть
+    // if (body) {
+    //   response.cookies.set('bx_yo_data', JSON.stringify('body_test'), { path: '/', maxAge: 60 * 60 * 24 });
+    // }
+
+    return response;
   } catch (error) {
     console.error('Ошибка обработки запроса:', error);
-    return NextResponse.json({ error: 'Ошибка обработки запроса' }, { status: 500 });
+    return NextResponse.json({ error: 'Ошибка загрузки файла' }, { status: 500 });
   }
 }
 
+
+
+
 export async function GET(req: NextRequest) {
+  console.log(req)
   return NextResponse.json({ message: 'Этот маршрут поддерживает только POST-запросы' });
 }
-
