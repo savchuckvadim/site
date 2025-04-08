@@ -29,7 +29,6 @@ const HomePage = () => {
                         <HomeHeroInfo />
                     </Hero>
                     <HomeServices />
-
                     <HomeLastProjects projects={lastProjects} />
                 </>
                 : <LoadingScreen />
