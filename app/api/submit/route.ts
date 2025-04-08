@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 
 interface RequestData {
   headers: Record<string, string>;
-  body: unknown;
+  body: Record<string, string>;
   cookies: Record<string, string>;
   query: string;
 }
@@ -12,28 +12,30 @@ export async function POST(req: NextRequest) {
 
     const requestData: RequestData = {
       headers: {},
-      body: null,
+      body: {},
       cookies: {},
       query: '',
     };
 
     // Заголовки запроса
-    requestData.headers = {};
+    // Заголовки запроса
     req.headers.forEach((value, key) => {
       requestData.headers[key] = value;
     });
 
-    // Тело запроса
+    // Парсинг тела как text
     try {
-      const body = await req.json();
-      requestData.body = body;
+      const rawBody = await req.text();
+      const params = new URLSearchParams(rawBody);
+      params.forEach((value, key) => {
+        requestData.body[key] = value;
+      });
     } catch (err) {
-      console.log(err)
-      requestData.body = 'Не удалось распарсить тело запроса';
+      console.log('Ошибка при парсинге тела запроса:', err);
+      requestData.body = { error: 'Не удалось распарсить тело запроса' };
     }
 
     // Куки
-    requestData.cookies = {};
     req.cookies.getAll().forEach((cookie) => {
       requestData.cookies[cookie.name] = cookie.value;
     });
