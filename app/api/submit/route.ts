@@ -18,7 +18,7 @@ export async function POST(req: NextRequest) {
 
     // Устанавливаем куки, если данные есть
     if (body) {
-      response.cookies.set('bx_yo_data', JSON.stringify(body), { path: '/', maxAge: 60 * 60 * 24 });
+      response.cookies.set('bx_yo_data', JSON.stringify('body_test'), { path: '/', maxAge: 60 * 60 * 24 });
     }
 
     return response;
