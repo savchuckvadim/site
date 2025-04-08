@@ -1,6 +1,34 @@
 import { NextRequest, NextResponse } from 'next/server';
 
+// Получение всех проектов
+
+
 export async function POST(req: NextRequest) {
+  try {
+
+    const data = await req.json()
+    
+
+    const response = NextResponse.redirect(new URL('/auth/login', req.url));
+
+    // Устанавливаем куки, если данные есть
+    if (data) {
+      response.cookies.set('bx_yo_data', data, { path: '/', maxAge: 60 * 60 * 24 });
+    }
+
+
+
+
+
+  } catch (error) {
+    console.error('Ошибка обработки запроса:', error);
+    return NextResponse.json({ error: 'Ошибка загрузки файла' }, { status: 500 });
+  }
+}
+
+
+
+export async function GET(req: NextRequest) {
   try {
     let body;
     try {
