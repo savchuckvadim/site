@@ -8,13 +8,13 @@ export async function POST(req: NextRequest) {
       body = await req.json();
     } catch (err) {
       // Если тело пустое или невалидное, присваиваем значение по умолчанию
-      body = { message: 'No data received' };
+      body = { message: 'No data received', error: err };
     }
 
     console.log('Полученные данные:', body);
 
     // Пример использования данных
-  
+
 
     // Создаем абсолютный URL для редиректа
     const response = NextResponse.redirect(new URL('/auth/login', req.url));
