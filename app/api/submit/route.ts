@@ -4,60 +4,44 @@ import { NextRequest, NextResponse } from 'next/server';
 
 export async function POST(req: NextRequest) {
   try {
-    let body;
+    // Инициализируем объект для хранения данных
+    const requestData: Record<string, any> = {};
+
+    // Заголовки запроса
+    requestData.headers = {};
+    req.headers.forEach((value, key) => {
+      requestData.headers[key] = value;
+    });
+
+    // Тело запроса
     try {
-      // Попытка получить данные из тела запроса
-      body = await req.json();
+      const body = await req.json();
+      requestData.body = body;
     } catch (err) {
-      // Если тело пустое или невалидное, присваиваем значение по умолчанию
-      body = { message: 'No data received', error: err };
+      requestData.body = 'Не удалось распарсить тело запроса';
     }
 
-    // Корректный редирект с методом GET
-    const response = NextResponse.redirect(new URL('/auth/login', req.url), 303);
+    // Куки
+    requestData.cookies = {};
+    req.cookies.getAll().forEach((cookie) => {
+      requestData.cookies[cookie.name] = cookie.value;
+    });
 
-    // Устанавливаем куки, если данные есть
-    if (body) {
-      response.cookies.set('bx_yo_data', JSON.stringify('body_test'), { path: '/', maxAge: 60 * 60 * 24 });
-    }
+    // Параметры запроса
+    requestData.query = req.nextUrl.searchParams.toString();
 
-    return response;
+    // Логи
+    console.log('Все данные запроса:', requestData);
+
+    // Возвращаем все данные в формате JSON
+    return NextResponse.json({ message: 'Получены данные', data: requestData });
   } catch (error) {
     console.error('Ошибка обработки запроса:', error);
-    return NextResponse.json({ error: 'Ошибка загрузки файла' }, { status: 500 });
+    return NextResponse.json({ error: 'Ошибка обработки запроса' }, { status: 500 });
   }
 }
-
-
-
 
 export async function GET(req: NextRequest) {
-  try {
-    let body;
-    try {
-      // Попытка получить данные из тела
-      body = await req.json();
-    } catch (err) {
-      // Если тело пустое или невалидное, присваиваем значение по умолчанию
-      body = { message: 'No data received', error: err };
-    }
-
-    console.log('Полученные данные:', body);
-
-    // Пример использования данных
-
-
-    // Создаем абсолютный URL для редиректа
-    const response = NextResponse.redirect(new URL('/auth/login', req.url));
-
-    // Устанавливаем куки, если данные есть
-    if (body) {
-      response.cookies.set('bx_yo_data', body, { path: '/', maxAge: 60 * 60 * 24 });
-    }
-
-    return response;
-  } catch (error) {
-    console.error('Ошибка обработки запроса:', error);
-    return NextResponse.json({ error: 'Ошибка загрузки файла' }, { status: 500 });
-  }
+  return NextResponse.json({ message: 'Этот маршрут поддерживает только POST-запросы' });
 }
+
